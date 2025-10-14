@@ -1,5 +1,7 @@
 import React from "react";
 import { Link } from "react-router";
+import faggot from '../imagenes/faggot.gif'
+
 
 function Ejemplo() {
     const sesionActiva = localStorage.getItem("sesionIniciada") === "true";
@@ -18,6 +20,9 @@ function Ejemplo() {
             {sesionActiva ? (
                 <div>
                     <p> Lorem Ipsum a: {usuarioNombre}  </p>
+                <img src={faggot} alt="Fag" width="600" />
+
+
                 </div>
 
             ) : (
