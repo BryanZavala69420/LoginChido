@@ -37,6 +37,7 @@ function Login() {
                     if (res.data.status === "ok") {
                         localStorage.setItem("sesionIniciada", "true");
                         localStorage.setItem("usuarioNombre", res.data.usuario);
+                        localStorage.setItem("usuarioRol", res.data.rol);
                         Navegar('/');
                     } else {
                         alert(res.data.mensaje);

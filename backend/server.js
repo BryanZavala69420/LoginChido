@@ -61,12 +61,8 @@ app.post('/registrar', (req, res) => {
 
 app.post('/acceder', (req, res) => {
     const { correo, contrasena } = req.body;
-    
-   
+
     const Consulta = "SELECT * FROM usuarios WHERE correo = ?"
-
-
-
 
     BaseDatos.query(Consulta, [correo], (err, data) => {
 
@@ -82,7 +78,8 @@ app.post('/acceder', (req, res) => {
                     return res.status(200).json({
                         status: "ok",
                         mensaje: "Exito, yay!",
-                        usuario: data[0].usuario
+                        usuario: data[0].usuario,
+                        rol: data[0].rol
                     });
                 } else {
                     return res.status(401).json({ status: "fail", mensaje: "Contraseña incorrecta" });
