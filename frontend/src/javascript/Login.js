@@ -18,7 +18,7 @@ function Login() {
             ...prev,
             [event.target.name]: event.target.value
         }));
-    };
+};
 
     const Enviar = (event) => {
         event.preventDefault();
@@ -88,10 +88,13 @@ function Login() {
                 {errores.contrasena && <span style={{ color: 'red' }}>{errores.contrasena}</span>}
                 <br />
 
+
+                <br />
                 <button className="botonsote" type="submit">Ingresar</button>
 
             </form>
 
+            <br />
 
             <Link to="/"> Regresar </Link>
         </div>

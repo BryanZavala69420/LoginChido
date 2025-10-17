@@ -13,10 +13,16 @@ function Index() {
 
   return (
     <div>
+      <header>
+
+
+      <div className="hola"> 
       <h1>Página principal</h1>
 
+      </div>
+
       {sesionActiva ? (
-        <div>
+        <div className="nose">
           <p>Bienvenido, {usuarioNombre}</p>
           <button onClick={cerrarSesion}>Cerrar sesión</button>
         </div>
@@ -26,8 +32,12 @@ function Index() {
           <Link to="/registrar" style={{ marginLeft: '10px' }}>Registrar</Link>
         </div>
         )}
-
-
+      </header>
+      
+      
+      <p> </p>
+      
+      
       <Link to="/ejemplo"> Ejemplo </Link>
 
     </div>
