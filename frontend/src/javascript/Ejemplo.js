@@ -1,19 +1,20 @@
 import React from "react";
-import { Link } from "react-router-dom"; // Asegúrate de usar 'react-router-dom', no 'react-router'
+import { Link, useNavigate } from "react-router-dom"; // Asegúrate de usar 'react-router-dom', no 'react-router'
 import faggot from '../imagenes/faggot.gif';
 
 function Ejemplo() {
     const sesionActiva = localStorage.getItem("sesionIniciada") === "true";
     const usuarioNombre = localStorage.getItem("usuarioNombre");
     const usuarioRol = localStorage.getItem("usuarioRol");
+    const Navegar = useNavigate();//luego lo arreglo XD
+
 
     return (
         <div>
             <div className="hola">
                 <h1>Hola mundo</h1>
             </div>
-                
-           {sesionActiva ? ( //esto ha de cuentas que es un if, si la sesion esta activa va y checa el rol del usuario
+                          {sesionActiva ? ( //esto ha de cuentas que es un if, si la sesion esta activa va y checa el rol del usuario
                 usuarioRol === "2" ? (  // Si el rol es del admin, en la base de datos deberia ser 1, o 2, la neta luego lo cambio
                     <div>
                         <p>Bienvenido, {usuarioNombre}! Eres un Administrador.</p>
@@ -29,6 +30,8 @@ function Ejemplo() {
                 <div>
                     <p>Inicia sesión para acceder a esta página.</p>
                     <Link to="/sesion">Iniciar sesión</Link>
+
+
                 </div>
             )}
 

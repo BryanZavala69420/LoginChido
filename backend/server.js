@@ -24,11 +24,11 @@ const BaseDatos = mysql.createConnection({
 
 app.get('/sus', (req, res) => {
     const sql = "SELECT * FROM usuarios";
-    BaseDatos.query(sql, (err, data) => {
+    BaseDatos.query(sql, (err,) => {
         if (err) {
             return res.json(err);
         } else {
-            return res.json(data);
+            return res.json();
         }
     });
 });

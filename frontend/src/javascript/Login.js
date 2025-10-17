@@ -65,7 +65,6 @@ function Login() {
 
     return (
         <div>
-
             <form onSubmit={Enviar}>
                 <p>Correo</p>
                 <input
