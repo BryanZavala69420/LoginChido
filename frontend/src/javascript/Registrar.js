@@ -12,7 +12,8 @@ function Registrar() {
         usuario: '',
         correo: '',
         fecha_nac: '',
-        constrasena: ''
+        constrasena:''
+         
     });
 
     const [errores, setErrores] = useState({});

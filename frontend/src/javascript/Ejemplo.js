@@ -36,9 +36,14 @@ function Ejemplo() {
             )}
 
 
+        
+            
             <Link to="/">Regresar</Link>
+
+            
         </div>
-    );
+
+);
 }
 
 export default Ejemplo;
