@@ -57,8 +57,12 @@ app.post('/registrar', (req, res) => {
         });
 });
 
-//ruta para acceder 
 
+
+
+
+
+//ruta para acceder 
 app.post('/acceder', (req, res) => {
     const { correo, contrasena } = req.body;
 
@@ -93,6 +97,32 @@ app.post('/acceder', (req, res) => {
         }
     });
 });
+
+
+
+//ruta para enviar el email y cambiar la contrasenia
+app.post('/cambiarcontrasenia', (req, res)=>{
+    const { correo } = req.body;
+
+    const Consulta = "SELECT * FROM usuarios WHERE correo = ?";
+    
+    BaseDatos.query(Consulta, [correo], (err, data)=>{
+        if(err){
+            console.error("Error de verificacion");
+            return res.status(500).json({mensaje:"Error en la base de datos"})
+        }
+
+        if(data.length >0){
+            return res.status(200).json({exists: true});
+
+        }else{
+            return res.status(404).json({exists:false});
+        }
+
+    });
+
+});
+
 
 
 app.listen(port, () => {
