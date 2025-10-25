@@ -5,6 +5,10 @@ import Registrar from './javascript/Registrar';
 import Login from './javascript/Login';
 import Index from './javascript/Principal';
 import Ejemplo from './javascript/Ejemplo';
+import CambiarContrasenia from './javascript/CambiarContrasenia';
+import Reset from './javascript/Reset';
+
+
 
 function App() {
   return (
@@ -15,6 +19,10 @@ function App() {
         <Route path='/registrar' element={<Registrar />} />
         <Route path='/sesion' element={<Login />}/>
         <Route path='/ejemplo' element={<Ejemplo/>}/>
+        <Route path='/cambiar' element={<CambiarContrasenia/>}/>
+        <Route path='/reset' element = {<Reset/>}/>
+
+
 
       </Routes>
 
