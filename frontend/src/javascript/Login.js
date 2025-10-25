@@ -105,8 +105,11 @@ function Login() {
                     <button className="botonsote" type="submit">Ingresar</button>
 
                 </form>
+
                 </div>
                 <br />
+                <p> ¿Olvidaste tu contraseña?</p> <Link to="/cambiar"> Reestablecer contraseña</Link>
+
 
                 <Link to="/"> Regresar </Link>
             </div>

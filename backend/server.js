@@ -3,8 +3,15 @@ const express = require('express');
 const mysql = require('mysql');
 const cors = require('cors');
 // encriptar
-const Encriptar = require('bcryptjs'); 
+const Encriptar = require('bcryptjs');
 
+//para enviar email
+const nodemailer = require('nodemailer');
+
+//json web token, llamen a Dios
+const jwt = require('jsonwebtoken');
+
+//cositas par
 const app = express();
 app.use(cors());
 app.use(express.json());
@@ -19,6 +26,19 @@ const BaseDatos = mysql.createConnection({
     password: '',
     database: "Prueba"
 });
+//clave se cresta para firmar los tokens
+const Clave = "ñiñiñiñi, sexo sexo sexo, ñiñiñiñi"
+
+//transportar el email
+
+const transportar = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+        user: '',
+        pass: ' '
+    }
+})
+
 
 //rutas
 
@@ -101,28 +121,88 @@ app.post('/acceder', (req, res) => {
 
 
 //ruta para enviar el email y cambiar la contrasenia
-app.post('/cambiarcontrasenia', (req, res)=>{
+app.post('/cambiarcontrasenia', (req, res) => {
     const { correo } = req.body;
 
     const Consulta = "SELECT * FROM usuarios WHERE correo = ?";
-    
-    BaseDatos.query(Consulta, [correo], (err, data)=>{
-        if(err){
+
+    BaseDatos.query(Consulta, [correo], (err, data) => {
+        if (err) {
             console.error("Error de verificacion");
-            return res.status(500).json({mensaje:"Error en la base de datos"})
+            return res.status(500).json({ mensaje: "Error en la base de datos" })
         }
 
-        if(data.length >0){
-            return res.status(200).json({exists: true});
+        if (data.length === 0) {
+            return res.status(404).json({ mensaje: "Correo no encontrado" });
 
-        }else{
-            return res.status(404).json({exists:false});
         }
 
+
+        //crea el token temporal
+        const token = jwt.sign({ correo }, Clave, { expiresIn: '60m' });
+
+
+        //enlace del frotnend
+        const enlace = `http://localhost:3001/reset?token=${token}`;
+
+
+        //enviar el correo
+        const EnviarCorreo = {
+            from: '"Soporte de mi app" <bt.zavala23@info.uas.edu.mx>',
+            to: correo,
+            subjet: "Restablecer contrasenia",
+
+            html: ` <p>Has solicitado restablecer tu contraseña.</p>
+                <p>Haz clic en el siguiente enlace para cambiarla (válido por 60 minutos):</p>
+                <a href="${enlace}">${enlace}</a>`
+        };
+
+        transportar.sendMail(EnviarCorreo, (error, info) => {
+            if (error) {
+                console.error("error al enviar el correo", error);
+                return res.status(500).json({ mensaje: "Error al enviar el correo" });
+            }
+
+            return res.status(200).json({ mensaje: "Correo de recuperación enviado" });
+        });
     });
-
 });
 
+//ruta donde por fin puedes cambiar la contrasenia
+app.post('/NuevaContrasenia', async (req, res) => {
+
+    const { token, nuevaContrasena } = req.body;
+
+    if (!token || !nuevaContrasena) {
+        return res.status(400).json({ mensaje: "Faltan datos" });
+    }
+
+    try {
+        const decoded = jwt.verify(token, Clave);
+        const correo = decoded.correo;
+
+        const hash = await Encriptar.hash(nuevaContrasena, 10);
+
+        const sql = "UPDATE usuarios SET contrasena = ? WHERE correo = ?";
+        BaseDatos.query(sql, [hash, correo], (err, result) => {
+            if (err) {
+                console.error("Error al actualizar contraseña:", err);
+                return res.status(500).json({ mensaje: "Error al actualizar la contraseña" });
+            }
+
+            if (result.affectedRows > 0) {
+                return res.status(200).json({ mensaje: "Contraseña actualizada correctamente" });
+            } else {
+                return res.status(404).json({ mensaje: "Correo no encontrado" });
+            }
+        });
+
+    } catch (error) {
+        console.error("Token inválido o expirado:", error);
+        return res.status(400).json({ mensaje: "Token inválido o expirado" });
+    }
+
+});
 
 
 app.listen(port, () => {
