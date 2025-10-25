@@ -76,35 +76,35 @@ function Login() {
 
 
 
-                <div className="formulario">
-                    <form onSubmit={Enviar}>
-                        <p>Correo</p>
-                        <input
-                            type="email"
-                            name="correo"
-                            placeholder="correo electrónico"
-                            onChange={Poner}
+            <div className="formulario"> 
+                <form onSubmit={Enviar}>
+                    <p>Correo</p>
+                    <input
+                        type="email"
+                        name="correo"
+                        placeholder="correo electrónico"
+                        onChange={Poner}
 
-                        />
-                        {errores.correo && <span style={{ color: 'red' }}>{errores.correo}</span>}
-                        <br />
+                    />
+                    {errores.correo && <span style={{ color: 'red' }}>{errores.correo}</span>}
+                    <br />
 
-                        <p>Contraseña</p>
-                        <input
-                            type="password"
-                            name="contrasena"
-                            placeholder="contraseña"
-                            onChange={Poner}
+                    <p>Contraseña</p>
+                    <input
+                        type="password"
+                        name="contrasena"
+                        placeholder="contraseña"
+                        onChange={Poner}
 
-                        />
-                        {errores.contrasena && <span style={{ color: 'red' }}>{errores.contrasena}</span>}
-                        <br />
+                    />
+                    {errores.contrasena && <span style={{ color: 'red' }}>{errores.contrasena}</span>}
+                    <br />
 
 
-                        <br />
-                        <button className="botonsote" type="submit">Ingresar</button>
+                    <br />
+                    <button className="botonsote" type="submit">Ingresar</button>
 
-                    </form>
+                </form>
                 </div>
                 <br />
 
