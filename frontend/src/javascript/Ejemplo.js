@@ -14,7 +14,7 @@ function Ejemplo() {
             <div className="hola">
                 <h1>Hola mundo</h1>
             </div>
-                          {sesionActiva ? ( //esto ha de cuentas que es un if, si la sesion esta activa va y checa el rol del usuario
+            {sesionActiva ? ( //esto ha de cuentas que es un if, si la sesion esta activa va y checa el rol del usuario
                 usuarioRol === "2" ? (  // Si el rol es del admin, en la base de datos deberia ser 1, o 2, la neta luego lo cambio
                     <div>
                         <p>Bienvenido, {usuarioNombre}! Eres un Administrador.</p>
@@ -36,14 +36,14 @@ function Ejemplo() {
             )}
 
 
-        
-            
+
+
             <Link to="/">Regresar</Link>
 
-            
+
         </div>
 
-);
+    );
 }
 
 export default Ejemplo;

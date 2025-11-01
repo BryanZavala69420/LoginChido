@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import ValidarUsuario from './ValidarUsuario';
 import axios from 'axios';
-
+import '../css/Registrar.css'
 function Registrar() {
 
 
@@ -12,8 +12,8 @@ function Registrar() {
         usuario: '',
         correo: '',
         fecha_nac: '',
-        constrasena:''
-         
+        constrasena: ''
+
     });
 
     const [errores, setErrores] = useState({});
@@ -69,53 +69,63 @@ function Registrar() {
     };
 
     return (
-        <div>
-            <form onSubmit={Enviar}>
-                <p>Usuario</p>
-                <input
-                    type="text"
-                    name="usuario" // ✅ agregado
-                    required
-                    value={valores.usuario}
-                    onChange={Poner}
-                    placeholder="usuario"
-                /> <br />
+        <div class="registrar">
 
-                <p>Correo</p>
-                <input
-                    type="email"
-                    name="correo" // ✅ agregado
-                    required
-                    value={valores.correo}
-                    onChange={Poner}
-                    placeholder="correo electronico"
-                />
-                {errorServer && <p style={{ color: "red" }}>{errorServer}</p>}
+            <div class="form-register">
 
-                <br />
 
-                <p>Fecha de nacimiento</p>
-                <input
-                    type="date"
-                    name="fecha_nac" // ✅ agregado
-                    value={valores.fecha_nac}
-                    onChange={Poner}
-                    required
-                /><br />
 
-                <p>Contraseña</p>
-                <input
-                    type="password"
-                    name="constrasena" // ✅ agregado
-                    value={valores.constrasena}
-                    onChange={Poner}
-                    required
-                /> <br />
+                <form onSubmit={Enviar}>
+                    <h2> Registrate es gratis hdp </h2>
+                    <p>Usuario</p>
+                    <input
+                        class="controles"
+                        type="text"
+                        name="usuario"
+                        required
+                        value={valores.usuario}
+                        onChange={Poner}
+                        placeholder="usuario"
+                    /> <br />
 
-                <button className='botoncito' type="submit">Registrar</button>
-            </form>
-            <Link to="/"> Regresar </Link>
+                    <p>Correo</p>
+                    <input
+                        class="controles"
+                        type="email"
+                        name="correo"
+                        required
+                        value={valores.correo}
+                        onChange={Poner}
+                        placeholder="correo electronico"
+                    />
+                    {errorServer && <p style={{ color: "red" }}>{errorServer}</p>}
 
+                    <br />
+
+                    <p>Fecha de nacimiento</p>
+                    <input
+                        class="controles"
+                        type="date"
+                        name="fecha_nac" // ✅ agregado
+                        value={valores.fecha_nac}
+                        onChange={Poner}
+                        required
+                    /><br />
+
+                    <p>Contraseña</p>
+                    <input
+                        class="controles"
+                        type="password"
+                        name="constrasena" // ✅ agregado
+                        value={valores.constrasena}
+                        onChange={Poner}
+                        required
+                    /> <br />
+
+                    <button class='botoncito' type="submit">Registrar</button>
+                </form>
+                <Link to="/"> Regresar </Link>
+            </div>
         </div>
     );
 }

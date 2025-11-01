@@ -1,5 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import '../css/Principal.css';
+
 
 function Index() {
   const sesionActiva = localStorage.getItem("sesionIniciada") === "true";
@@ -12,33 +14,60 @@ function Index() {
   };
 
   return (
-    <div>
-      <header>
+
+    <div className="todo">
+
+      <div className="cabezal">
 
 
-      <div className="hola"> 
-      <h1>Página principal</h1>
+        <header>
 
+
+          <div className="hola">
+            <h1>Página principal</h1>
+
+          </div>
+
+          <nav id="nav-list">
+
+
+            {sesionActiva ? (
+              <div className="nose">
+                <p>Bienvenido, {usuarioNombre}</p>
+                <div className="boton">
+                  <button onClick={cerrarSesion}>Cerrar sesión</button>
+
+
+                </div>
+
+              </div>
+            ) : (
+              
+              <div className="Link">
+
+                <ul className="Link">
+                  <li><Link to="/sesion">Iniciar sesión</Link></li>
+                  <li><Link to="/registrar">Registrar</Link></li>
+                </ul>
+
+              </div>
+            )}
+          </nav>
+        </header>
       </div>
 
-      {sesionActiva ? (
-        <div className="nose">
-          <p>Bienvenido, {usuarioNombre}</p>
-          <button onClick={cerrarSesion}>Cerrar sesión</button>
-        </div>
-      ) : (
-        <div>
-          <Link to="/sesion">Iniciar sesión</Link>
-          <Link to="/registrar" style={{ marginLeft: '10px' }}>Registrar</Link>
-        </div>
-        )}
-      </header>
-      
-      
-      <p> </p>
-      
-      
-      <Link to="/ejemplo"> Ejemplo </Link>
+
+
+
+
+      <main>
+
+        <p> Este es el body </p>
+
+
+        <Link to="/ejemplo"> Ejemplo </Link>
+      </main>
+
 
     </div>
   );
