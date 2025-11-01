@@ -26,7 +26,7 @@ const BaseDatos = mysql.createConnection({
     password: '',
     database: "Prueba"
 });
-//clave se cresta para firmar los tokens
+//clave secreta para firmar los tokens
 const Clave = "ñiñiñiñi, sexo sexo sexo, ñiñiñiñi"
 
 //transportar el email
@@ -35,7 +35,7 @@ const transportar = nodemailer.createTransport({
     service: 'gmail',
     auth: {
         user: '',
-        pass: ' '
+        pass: ''
     }
 })
 

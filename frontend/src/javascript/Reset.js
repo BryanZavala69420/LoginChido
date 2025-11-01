@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { useLocation } from "react-router";
 import axios from "axios";
 import ValidarLogin from "./ValidarLogin";
+import '../css/Reset.css';
+import { Link } from "react-router";
 
 function Reset() {
   const [password, setPassword] = useState("");
@@ -38,27 +40,29 @@ function Reset() {
   };
 
   return (
-    <div>
-      <div className="t">
-        <h1>Reestablecimiento de contraseña</h1>
-      </div>
+    <div className="todosito">
+
 
       <div className="formulariochilo">
         <form onSubmit={Enviar}>
+          <h2> Reestablecer contraseña</h2>
+          
           <p>Escribe tu nueva contraseña</p>
           <br />
           <input
-            type="password"
+           class="controlito"
+           type="password"
             value={password}
             placeholder="Nueva contraseña"
             onChange={(e) => setPassword(e.target.value)}
             required
           />
-          <button type="submit">Cambiar contraseña</button>
+          <button class="botonbonito" type="submit">Cambiar contraseña</button>
         </form>
 
         {<p style={{ color: "red" }}>{errores.contrasena}</p>}
-        {mensaje && <p>{mensaje}</p>}
+        <Link to="/"> Regresar </Link>
+
       </div>
     </div>
   );

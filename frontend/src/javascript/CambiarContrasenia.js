@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { Link } from "react-router";
-
+import '../css/CambiarContrasena.css'
 
 function CambiarContrasenia() {
 
@@ -29,39 +29,46 @@ function CambiarContrasenia() {
       }
     } catch (err) {
       console.error("Error al enviar la solicitud:", err);
-      setError("Error en el servidor o conexión.");
+      setError("Correo no encontrado");
     }
   };
 
   return (
-    <div>
+    <div className="Cambiar">
+      <div>
+
+      <div className="pass-recoveryform">
 
 
      
-        <div>
+        <form onSubmit={Enviar}>
           <h2>Recuperar Contraseña</h2>
-          <form onSubmit={Enviar}>
-            <label>Correo electrónico:</label>
-            <input
-              type="email"
-              name="correo"
-              value={correo}
-              onChange={(e) => setCorreo(e.target.value)}
-              placeholder="Escribe tu correo"
 
-            />
-            <br/>
-            <button type="submit">Enviar enlace</button>
-          </form>
+          <p>Correo electrónico:</p>
+          <input
+            class="control"
+            type="email"
+            name="correo"
+            value={correo}
+            onChange={(e) => setCorreo(e.target.value)}
+            placeholder="Escribe tu correo"
 
-          {mensaje && <p style={{ color: "green" }}>{mensaje}</p>}
-          {error && <p style={{ color: "red" }}>{error}</p>}
-        </div>
-        <br/>
+          />
+          <br />
 
+          <button class="sexi" type="submit">Enviar enlace</button>
+        </form>
+
+        {mensaje && <p style={{ color: "green" }}>{mensaje}</p>}
+        {error && <p style={{ color: "red" }}>{error}</p>}
         <Link to='/'>Regresar</Link>
 
+      </div>
+    
+
+   
     </div>
+     </div>
   );
 }
 

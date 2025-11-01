@@ -1,18 +1,19 @@
-.login * {
-    margin:0;
+.registrar *{
+    margin: 0;
     padding: 0;
     box-sizing: border-box;
+
 }
 
-
-.login {
+.registrar{
     background-color: #94B7C4;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
 }
 
-.formulario{
+
+.form-register{
     width: 500px;
     background-color: #E6E6E6;
     padding: 30px;
@@ -23,44 +24,24 @@
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 }
 
-.formulario h2{
+.form-register h2{
     text-align: center;
     font-size: 32px;
     margin-bottom: 32px;
 }
-.subtitulo{
-    font-size: 19px;
+
+.form-register p{
+height: 30px;
+font-size: 19px;
 }
 
-.formulario p{
- height: 30px;
- 
 
+
+.form-register a{
+text-decoration: none;
 }
 
-.formulario a{
-    text-decoration: none;
-}
-
-.formulario .botonsote{
-width: 100%;
-background-color: #506074;
-border: none;
-border-radius: 8px;
-padding: 12px;
-margin: 12px 0;
-font-size: 16px;
-color: #E6E6E6;
-margin-top: -10px;
-}
-
-.formulario .botonsote:hover{
-    background-color: #455364;
-    transition-duration: 0.3s;
-
-}
-
-.controls{
+.controles{
     width: 100%;
     background-color: #B2CBD4;
     padding: 10px;
@@ -69,7 +50,7 @@ margin-top: -10px;
     border: 1px #B2CBD4 solid;
 }
 
-.controls:hover{
+.controles:hover{
     background-color: #a0bcc5;
 
     border: 1px #a0bcc5 solid;
@@ -77,7 +58,21 @@ margin-top: -10px;
     
 }
 
+.form-register .botoncito{
+width: 100%;
+background-color: #506074;
+border: none;
+border-radius: 8px;
+padding: 12px;
+margin: 12px 0;
+font-size: 16px;
+color: #E6E6E6;
+margin-top: 10px;
 
-.linksito{
-    text-decoration: none;
+}
+
+.form-register .botoncito:hover{
+    background-color: #455364;
+    transition-duration: 0.3s;
+
 }
