@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import '../css/Principal.css';
-
+import uas from '../imagenes/UAS-3.jpg'
 
 function Index() {
   const sesionActiva = localStorage.getItem("sesionIniciada") === "true";
@@ -32,6 +32,7 @@ function Index() {
 
 
             {sesionActiva ? (
+
               <div className="nose">
                 <p>Bienvenido, {usuarioNombre}</p>
                 <div className="boton">
@@ -42,7 +43,7 @@ function Index() {
 
               </div>
             ) : (
-              
+
               <div className="Link">
 
                 <ul className="Link">
@@ -61,13 +62,29 @@ function Index() {
 
 
       <main>
+        <div className="Cuerpo-principal">
 
-        <p> Este es el body </p>
+          <p> Este es el body </p>
 
 
-        <Link to="/ejemplo"> Ejemplo </Link>
+            <div className="imagen-uas">
+                        <img src={uas} alt="Logo UAS" />
+
+            </div>
+          <br />
+
+          <Link to="/ejemplo"> Ejemplo </Link>
+        </div>
       </main>
 
+
+      <footer>
+        <div className="footers">
+          <p> Todos los derechos reservados a la clase de Fidel, viva Fidel </p>
+        </div>
+
+
+      </footer>
 
     </div>
   );

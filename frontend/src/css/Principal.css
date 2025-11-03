@@ -1,28 +1,28 @@
-.todo *{
-      margin:0;
-    padding: 0;
-    box-sizing: border-box;
+/* Reset */
+.todo * {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
-
-
-
-
 .todo {
-    background-color: #f0fafd;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
+  background-color: #effbff;
+  min-height: 100vh;          
+  display: flex;
+  flex-direction: column;      
 }
-.cabezal header{
+
+
+.cabezal header {
   position: relative;
   width: 100%;
   height: 80px;
   color: white;
-  background-color: rgb(44, 49, 53);
+  background-color: #677a80;
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
+
 .hola h1 {
   display: flex;
   width: 20%;
@@ -30,10 +30,11 @@
   height: 100%;
   padding: 5%;
   margin-left: 10%;
-    white-space: nowrap;
+  white-space: nowrap;
 }
 
-#nav-list{
+/* Nav */
+#nav-list {
   position: relative;
   width: auto;
   padding: 5%;
@@ -45,7 +46,7 @@
 
 ul.Link {
   display: flex;
-  gap: 100px; 
+  gap: 100px;
   margin: 0;
   padding: 0;
   list-style: none;
@@ -53,13 +54,77 @@ ul.Link {
   color: white;
 }
 
-ul a{
+ul a {
   font-size: 18px;
   text-decoration: none;
   color: #f0fafd;
 }
-ul a:hover{
 
+ul a:hover {
   color: #91b8c4;
 }
 
+.nose {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.nose p {
+  margin: 0;
+  font-size: 1.2rem;
+  color: #eee;
+  font-weight: 500;
+}
+
+.boton button {
+  background-color: #a0bcc5;
+  color: white;
+  border: none;
+  padding: 8px 15px;
+  font-size: 0.95rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.boton button:hover {
+  background-color: #506074;
+}
+
+main {
+  flex: 1;              
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+}
+
+/* Footer */
+.footers {
+  background-color: #677a80;
+  color: #ddd;
+  text-align: center;
+  padding: 15px 0;
+  width: 100%;
+}
+
+.footers p {
+  margin: 0;
+  font-size: 1rem;
+  letter-spacing: 0.5px;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+
+.Cuerpo-principal{
+width: 1200px;
+background-color: #506074;
+margin-left:10%;
+min-height: 100px;
+overflow: hidden;
+height: 700px;
+box-shadow: 0px 0px 32px #505053; ;
+
+}
