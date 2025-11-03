@@ -67,10 +67,10 @@ function Index() {
           <p> Este es el body </p>
 
 
-            <div className="imagen-uas">
-                        <img src={uas} alt="Logo UAS" />
+          <div className="imagen-uas">
+            <img src={uas} alt="Logo UAS" />
 
-            </div>
+          </div>
           <br />
 
           <Link to="/ejemplo"> Ejemplo </Link>
