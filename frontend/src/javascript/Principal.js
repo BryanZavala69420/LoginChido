@@ -90,7 +90,10 @@ function Index() {
            </div>
           <br />
 
+          <div className="ejemplito">
           <Link to="/ejemplo"> Ejemplo </Link>
+
+          </div>
         </div>
       </main>
 
