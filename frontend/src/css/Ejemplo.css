@@ -1,4 +1,3 @@
-/* --- Reset básico --- */
 .ejemplo-container * {
   margin: 0;
   padding: 0;
@@ -6,7 +5,6 @@
   font-family: 'Poppins', 'Gill Sans', 'Segoe UI', sans-serif;
 }
 
-/* --- Contenedor general --- */
 .ejemplo-container {
   background: linear-gradient(135deg, #e8f2f7, #c9dbe3);
   min-height: 100vh;
@@ -18,7 +16,6 @@
   color: #2b3b45;
 }
 
-/* --- Título principal --- */
 .ejemplo-container .hola h1 {
   font-size: 2.5rem;
   color: #324c57;
@@ -40,7 +37,6 @@
   border-radius: 2px;
 }
 
-/* --- Texto principal --- */
 .ejemplo-container p {
   font-size: 1.2rem;
   text-align: center;
@@ -50,7 +46,6 @@
   margin-bottom: 25px;
 }
 
-/* --- Imagen animada (GIF) --- */
 .ejemplo-container img {
   display: block;
   margin: 20px auto;
@@ -64,7 +59,6 @@
   box-shadow: 0 15px 40px rgba(0,0,0,0.35);
 }
 
-/* --- Links --- */
 .ejemplo-container a {
   display: inline-block;
   text-decoration: none;
@@ -82,7 +76,6 @@
   transform: translateY(-2px);
 }
 
-/* --- Cuadro de mensaje según tipo de usuario --- */
 .ejemplo-container .mensaje {
   background-color: rgba(255, 255, 255, 0.85);
   border-left: 5px solid #4e7986;
@@ -103,7 +96,6 @@
   background-color: rgba(240, 255, 255, 0.9);
 }
 
-/* --- Responsive --- */
 @media (max-width: 768px) {
   .ejemplo-container {
     padding: 20px;
