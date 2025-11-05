@@ -1,0 +1,123 @@
+/* --- Reset básico --- */
+.ejemplo-container * {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', 'Gill Sans', 'Segoe UI', sans-serif;
+}
+
+/* --- Contenedor general --- */
+.ejemplo-container {
+  background: linear-gradient(135deg, #e8f2f7, #c9dbe3);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 40px 20px;
+  color: #2b3b45;
+}
+
+/* --- Título principal --- */
+.ejemplo-container .hola h1 {
+  font-size: 2.5rem;
+  color: #324c57;
+  text-align: center;
+  letter-spacing: 1px;
+  margin-bottom: 40px;
+  position: relative;
+}
+
+.ejemplo-container .hola h1::after {
+  content: "";
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  width: 80px;
+  height: 4px;
+  background: #7ba9b4;
+  transform: translateX(-50%);
+  border-radius: 2px;
+}
+
+/* --- Texto principal --- */
+.ejemplo-container p {
+  font-size: 1.2rem;
+  text-align: center;
+  color: #3b4b50;
+  max-width: 700px;
+  line-height: 1.6;
+  margin-bottom: 25px;
+}
+
+/* --- Imagen animada (GIF) --- */
+.ejemplo-container img {
+  display: block;
+  margin: 20px auto;
+  border-radius: 15px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.ejemplo-container img:hover {
+  transform: scale(1.05);
+  box-shadow: 0 15px 40px rgba(0,0,0,0.35);
+}
+
+/* --- Links --- */
+.ejemplo-container a {
+  display: inline-block;
+  text-decoration: none;
+  background-color: #4e7986;
+  color: #fff;
+  padding: 10px 20px;
+  border-radius: 8px;
+  margin: 10px;
+  font-weight: 500;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.ejemplo-container a:hover {
+  background-color: #385862;
+  transform: translateY(-2px);
+}
+
+/* --- Cuadro de mensaje según tipo de usuario --- */
+.ejemplo-container .mensaje {
+  background-color: rgba(255, 255, 255, 0.85);
+  border-left: 5px solid #4e7986;
+  padding: 20px 25px;
+  border-radius: 10px;
+  margin-bottom: 25px;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+  max-width: 800px;
+}
+
+.ejemplo-container .mensaje.admin {
+  border-left-color: #317873;
+  background-color: rgba(230, 255, 250, 0.9);
+}
+
+.ejemplo-container .mensaje.user {
+  border-left-color: #7ba9b4;
+  background-color: rgba(240, 255, 255, 0.9);
+}
+
+/* --- Responsive --- */
+@media (max-width: 768px) {
+  .ejemplo-container {
+    padding: 20px;
+  }
+
+  .ejemplo-container .hola h1 {
+    font-size: 2rem;
+  }
+
+  .ejemplo-container p {
+    font-size: 1rem;
+  }
+
+  .ejemplo-container img {
+    width: 90%;
+  }
+}
