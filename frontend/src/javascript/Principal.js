@@ -71,10 +71,14 @@ function Index() {
 
           </div>
 
+            <div className="contenido"> 
+
+           
           <div className="texto">
 
 
-            <p> </p>
+            <p> Participa el Rector Jesús Madueña en la Primera Reunión Nacional de Universidades e Instituciones de Educación Superior para la Transformación de México, encabezada por la Presidenta Claudia Sheinbaum
+              El Rector de la Universidad Autónoma de Sinaloa (UAS), el doctor Jesús Madueña Molina, participó como invitado especial a la Primera Reunión Nacional de Universidades e Instituciones de Educación Superior para la Transformación de México, la cual fue encabezada por la Presidenta de la República, la doctora Claudia Sheinbaum Pardo, así como por el titular de la SEP, el maestro Mario Delgado Carrillo, rectores y directores, así como el secretario general de la ANUIES, Luis Armando González Placencia. </p>
 
           </div>
 
@@ -83,6 +87,7 @@ function Index() {
             <img src={uas} alt="Logo UAS" class="UAS" />
 
           </div>
+           </div>
           <br />
 
           <Link to="/ejemplo"> Ejemplo </Link>
