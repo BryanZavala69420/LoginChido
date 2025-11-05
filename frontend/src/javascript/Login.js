@@ -20,48 +20,52 @@ function Login() {
         }));
     };
 
-    const Enviar = (event) => {
-        event.preventDefault();
+ const Enviar = (event) => {
+    event.preventDefault();
 
-        const Validacion = ValidarLogin(valores);
-        setErrores(Validacion);
+    const Validacion = ValidarLogin(valores);
+    setErrores(Validacion);
 
-        const sinErrorescitos = Object.values(Validacion).every(v => v === "");
+    const sinErrorescitos = Object.values(Validacion).every(v => v === "");
 
-        if (sinErrorescitos) {
-            axios.post('http://localhost:8081/acceder', valores)
+    if (sinErrorescitos) {
+        axios.post('http://localhost:8081/acceder', valores)
+           
+        .then(res => {
+    console.log("🧾 Respuesta completa del backend:", res.data);
 
-                .then(res => {
-                    console.log("Respuesta del servidor:", res.data);
+    if (res.data.status === "ok") {
+        localStorage.setItem("sesionIniciada", "true");
+        localStorage.setItem("usuarioNombre", res.data.usuario);
+        localStorage.setItem("usuarioRol", res.data.rol);
+        localStorage.setItem("usuarioId", res.data.id_usuario);
 
-                    if (res.data.status === "ok") {
-                        localStorage.setItem("sesionIniciada", "true");
-                        localStorage.setItem("usuarioNombre", res.data.usuario);
-                        localStorage.setItem("usuarioRol", res.data.rol);
-                        Navegar('/');
-                    } else {
-                        alert(res.data.mensaje);
-                    }
-                })
-                .catch(err => {
-                    console.error("Error al acceder", err);
-                    if (err.response && err.response.status === 401) {
+        const idUsuario = res.data.id_usuario;
 
-                        const mensaje = err.response.data.mensaje;
+        axios.post('http://localhost:8081/sesiones', { id_usuario: idUsuario })
 
+        Navegar('/');
+    } else {
+        alert(res.data.mensaje);
+    }
+})
 
-                        setErrores(prev => ({
-                            ...prev,
-                            correo: mensaje.toLowerCase().includes("correo") ? mensaje : prev.correo,
-                            contrasena: mensaje.toLowerCase().includes("contraseña") ? mensaje : prev.contrasena
-                        }));
+            .catch(err => {
+                console.error("Error al acceder", err);
+                if (err.response && err.response.status === 401) {
+                    const mensaje = err.response.data.mensaje;
+                    setErrores(prev => ({
+                        ...prev,
+                        correo: mensaje.toLowerCase().includes("correo") ? mensaje : prev.correo,
+                        contrasena: mensaje.toLowerCase().includes("contraseña") ? mensaje : prev.contrasena
+                    }));
+                } else {
+                    alert("error de conexion en el servidor");
+                }
+            });
+    }
+};
 
-                    } else {
-                        alert("error de conexion en el servidor");
-                    }
-                });
-        }
-    };
 
     return (
         <div className="login">

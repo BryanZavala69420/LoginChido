@@ -64,11 +64,23 @@ function Index() {
       <main>
         <div className="Cuerpo-principal">
 
-          <p> Este es el body </p>
+
+          <div className="titulo-principal">
+            
+            <h2> La UAS </h2> <br />
+
+          </div>
+
+          <div className="texto">
+
+
+            <p> </p>
+
+          </div>
 
 
           <div className="imagen-uas">
-            <img src={uas} alt="Logo UAS" />
+            <img src={uas} alt="Logo UAS" class="UAS" />
 
           </div>
           <br />

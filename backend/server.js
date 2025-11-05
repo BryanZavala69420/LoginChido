@@ -78,8 +78,26 @@ app.post('/registrar', (req, res) => {
 });
 
 
+app.post('/sesiones', (req, res) => {
 
+    const { id_usuario } = req.body;
 
+    if (!id_usuario) {
+        return res.status(400).send("Falta id_usuario en el cuerpo de la solicitud.");
+    }
+
+    const Consulta = 'INSERT INTO sesion (fecha_sesion, hora_sesion, id_usuario) VALUES (CURDATE(), CURTIME(), ?);'
+
+    BaseDatos.query(Consulta, [id_usuario], (err, resultado) => {
+        if (err) {
+            console.error(' Error al guardar sesión, puta madre: ', err);
+            res.status(500).send('error al guardar');
+        } else {
+
+            res.status(200).send('Todo god');
+        }
+    });
+});
 
 
 //ruta para acceder 
@@ -103,7 +121,8 @@ app.post('/acceder', (req, res) => {
                         status: "ok",
                         mensaje: "Exito, yay!",
                         usuario: data[0].usuario,
-                        rol: data[0].rol
+                        rol: data[0].rol,
+                        id_usuario: data[0].id
                     });
                 } else {
                     return res.status(401).json({ status: "fail", mensaje: "Contraseña incorrecta" });
