@@ -7,6 +7,8 @@ import Index from './javascript/Principal';
 import Ejemplo from './javascript/Ejemplo';
 import CambiarContrasenia from './javascript/CambiarContrasenia';
 import Reset from './javascript/Reset';
+import CrearNotsicia from './javascript/CrearNoticia';
+import Plantilla from './javascript/NoticiaPlantilla';
 
 
 
@@ -22,8 +24,8 @@ function App() {
         <Route path='/cambiar' element={<CambiarContrasenia/>}/>
         <Route path='/reset' element = {<Reset/>}/>
 
-
-
+        <Route path='/crearnoticia' element = {<CrearNotsicia/>}/>
+        <Route path='/noticia/:id_noticia' element={<Plantilla/>}/>
       </Routes>
 
     </BrowserRouter>

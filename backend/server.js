@@ -223,6 +223,95 @@ app.post('/NuevaContrasenia', async (req, res) => {
 
 });
 
+//ruta para enviar la noticia desde el frontend
+
+app.post('/NuevaNoticia', async (req, res) => {
+    const { titulo, noticia, id_periodista, nombre_periodista } = req.body;
+
+    const consulta = `INSERT INTO Noticias (titulo, noticia, id_periodista, nombre_periodista, fecha_de_publicacion, hora_de_publicacion) VALUES (?, ?, ?, ?, CURDATE(), CURTIME())`;
+    BaseDatos.query(consulta, [titulo, noticia, id_periodista, nombre_periodista], (err, result) => {
+        if (err) {
+            console.error("error al insertar la noticia");
+            return res.status(500).json({ error:"error al insertar"})
+        }
+        return res.json("noticia regisrada, yay");
+    });
+
+});
+
+//ruta para encontrar las noticias en la pagina principal sexosexo
+
+app.get('/TodasLasNoticias', (req, res) => {
+    const Consulta = 'SELECT * FROM Noticias ORDER BY id_noticia DESC';
+    BaseDatos.query(Consulta, (err, result) => {
+        if (err) {
+            console.error("ERROR SQL:", err);  // 🔥 muestra el error verdadero
+            return res.status(500).json({ error: 'Error al obtener noticias' });
+        }
+        return res.json(result);
+    });
+});
+
+//ruta para encontrar UNA sola noticia
+
+app.get('/IdNoticia/:id_noticia', (req, res)=>{
+    const id_noticias = req.params.id_noticia;
+    
+    const Consulta = 'SELECT titulo, noticia, nombre_periodista from Noticias WHERE id_noticia = ?';
+
+    BaseDatos.query(Consulta, [id_noticias], (err, result)=>{
+        if(err){
+            console.error("NO SE PUDO ENCONTRAR", err);
+            return res.status(500).json({error: "no se encontro"});
+
+        }
+        return res.json(result[0]);
+    });
+
+});
+
+
+
+
+//ruta para los comentarios
+app.get('/comentario/:id_comentario', (req, res)=>{
+    const id_comentario = req.params.id_comentario;
+
+    const Consulta =' SELECT * FROM `comentarios` WHERE id_noticia =?; '
+    BaseDatos.query(Consulta, [id_comentario], (err, result)=>{
+        if(err){
+            console.error("no se pudo encontrar na");
+            return res.status(500).json({error:"llamen a cristo"})
+        }
+        return res.json(result)
+
+    })
+
+})
+
+app.post('/NuevoComentario', async (req, res) => {
+    const { comentario, usuario, id_usuario, id_noticia } = req.body;
+
+    const consulta = `INSERT INTO comentarios (comentario, usuario, id_usuario, id_noticia, fecha_de_comentario, hora_de_comentario) 
+                      VALUES (?, ?, ?, ?, CURDATE(), CURTIME())`;
+
+    BaseDatos.query(consulta, [comentario, usuario, id_usuario, id_noticia], (err, result) => {
+        if (err) {
+            console.error("error al insertar el comentario", err);
+            return res.status(500).json({ error:"error al insertar" });
+        }
+        return res.json("comentario registrado, yay");
+    });
+});
+
+
+
+
+
+
+
+
+
 
 app.listen(port, () => {
     console.log('conectandose en el puerto 8081, y en el puerto 3001');
