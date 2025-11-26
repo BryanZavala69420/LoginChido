@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import uas from "../imagenes/UAS-3.jpg";
 import axios from "axios";
-
+//import  '../css/Principal.css';
 
 
 function Index() {
@@ -24,7 +24,7 @@ function Index() {
       .get("http://localhost:8081/TodasLasNoticias")
       .then((response) => {
         console.log("Noticias:", response.data);
-        setNoticias(response.data); // Backend devuelve un array directo
+        setNoticias(response.data); 
         setCargando(false);
       })
       .catch((error) => {

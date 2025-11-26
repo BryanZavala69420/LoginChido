@@ -292,8 +292,7 @@ app.get('/comentario/:id_comentario', (req, res)=>{
 app.post('/NuevoComentario', async (req, res) => {
     const { comentario, usuario, id_usuario, id_noticia } = req.body;
 
-    const consulta = `INSERT INTO comentarios (comentario, usuario, id_usuario, id_noticia, fecha_de_comentario, hora_de_comentario) 
-                      VALUES (?, ?, ?, ?, CURDATE(), CURTIME())`;
+    const consulta = `INSERT INTO comentarios (comentario, usuario, id_usuario, id_noticia, fecha_de_comentario, hora_de_comentario) VALUES (?, ?, ?, ?, CURDATE(), CURTIME())`;
 
     BaseDatos.query(consulta, [comentario, usuario, id_usuario, id_noticia], (err, result) => {
         if (err) {
@@ -304,7 +303,24 @@ app.post('/NuevoComentario', async (req, res) => {
     });
 });
 
+//ruta para borrar el comentario
+app.delete('/BorrarComentario/:id_comentario/:id_usuario', (req, res) => {
+    const { id_comentario, id_usuario } = req.params;
 
+    const Consulta = `
+        DELETE FROM comentarios 
+        WHERE id_comentario = ? AND id_usuario = ?
+    `;
+
+    BaseDatos.query(Consulta, [id_comentario, id_usuario], (err, result) => {
+        if (err) {
+            console.error("Error al borrar comentario:", err);
+            return res.status(500).json({ error: "Error al borrar" });
+        }
+
+        return res.json({ mensaje: "Comentario borrado correctamente" });
+    });
+});
 
 
 

@@ -9,7 +9,7 @@ function Plantilla() {
     const usuarioNombre = localStorage.getItem("usuarioNombre");
     const usuarioID = localStorage.getItem("usuarioId");
     const sesionActiva = localStorage.getItem("sesionIniciada") === "true";
-    
+
     const [CargarNoticia, setCargarNoticia] = useState(null);
     const [cargando, setCargando] = useState(true);
 
@@ -23,8 +23,7 @@ function Plantilla() {
                 setCargarNoticia(response.data);
                 setCargando(false);
             })
-            .catch((error) => {
-                console.error("Error al obtener noticia:", error);
+            .catch(() => {
                 setCargando(false);
             });
     }, [id_noticia]);
@@ -33,7 +32,7 @@ function Plantilla() {
         axios
             .get(`http://localhost:8081/comentario/${id_noticia}`)
             .then(res => setListaComentarios(res.data))
-            .catch(err => console.log("Error cargando comentarios:", err));
+            .catch(() => {});
     }, [id_noticia]);
 
     const enviarComentario = () => {
@@ -47,15 +46,19 @@ function Plantilla() {
         })
             .then(() => {
                 setComentarioTexto("");
-
-                // Recargar comentarios después de enviar
                 axios
                     .get(`http://localhost:8081/comentario/${id_noticia}`)
                     .then(res => setListaComentarios(res.data));
             })
-            .catch((error) => {
-                console.error("Error al enviar comentario:", error);
-            });
+            .catch(() => {});
+    };
+
+    const Borrar = (idComentario) => {
+        axios.delete(`http://localhost:8081/BorrarComentario/${idComentario}/${usuarioID}`)
+            .then(() => {
+                window.location.reload();
+            })
+            .catch(() => {});
     };
 
     if (cargando) return;
@@ -74,7 +77,6 @@ function Plantilla() {
             <hr />
 
             <h3>Comentarios</h3>
-
             <div className="comentarios">
 
                 <div className="crearcomentario">
@@ -98,23 +100,34 @@ function Plantilla() {
                         <p>No hay comentarios aún</p>
                     )}
 
-                    {listaComentarios.map((com) => (
-                        <div key={com.id_comentario}
+                    {listaComentarios.map((Comemtario) => (
+                        <div key={Comemtario.id_comentario}
                             style={{
                                 border: "1px solid #ccc",
                                 padding: "10px",
                                 marginBottom: "10px"
                             }}
                         >
-                            <b>{com.usuario}</b>
-                            <p>{com.comentario}</p>
-                            <small>{com.fecha_de_comentario} {com.hora_de_comentario}</small>
+                            <b>{Comemtario.usuario}</b>
+                            <p>{Comemtario.comentario}</p>
+
+                            <small>
+                                {Comemtario.fecha_de_comentario} {Comemtario.hora_de_comentario}
+                            </small>
+
+                            {sesionActiva && Comemtario.id_usuario == usuarioID && (
+                                <button onClick={() => Borrar(Comemtario.id_comentario)}>
+                                    Borrar Comentario
+                                </button>
+                            )}
+
                         </div>
                     ))}
                 </div>
 
             </div>
         </div>
-    )
+    );
 }
+
 export default Plantilla;
