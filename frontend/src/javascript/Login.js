@@ -32,7 +32,7 @@ function Login() {
         axios.post('http://localhost:8081/acceder', valores)
            
         .then(res => {
-    console.log("🧾 Respuesta completa del backend:", res.data);
+    console.log("Respuesta completa del backend:", res.data);
 
     if (res.data.status === "ok") {
         localStorage.setItem("sesionIniciada", "true");

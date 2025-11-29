@@ -8,9 +8,14 @@ import axios from "axios";
 function Index() {
   const sesionActiva = localStorage.getItem("sesionIniciada") === "true";
   const usuarioNombre = localStorage.getItem("usuarioNombre");
+  const usuarioRol = localStorage.getItem("usuarioRol");
+    const usuarioId = localStorage.getItem("usuarioId");
+
 
   const [noticias, setNoticias] = useState([]);
   const [cargando, setCargando] = useState(true);
+
+
 
   const cerrarSesion = () => {
     localStorage.removeItem("sesionIniciada");
@@ -24,7 +29,7 @@ function Index() {
       .get("http://localhost:8081/TodasLasNoticias")
       .then((response) => {
         console.log("Noticias:", response.data);
-        setNoticias(response.data); 
+        setNoticias(response.data);
         setCargando(false);
       })
       .catch((error) => {
@@ -43,12 +48,30 @@ function Index() {
 
           <nav id="nav-list">
             {sesionActiva ? (
+
+              
               <div className="nose">
+                
                 <p>Bienvenido, {usuarioNombre}</p>
+                {usuarioRol === "2" &&(
+                  <div>
+                    <Link to={'/admin'}>Panel del admin</Link>
+                  </div>
+                )}
+                
                 <div className="boton">
                   <button onClick={cerrarSesion}>Cerrar sesión</button>
                 </div>
+                <div className=" perfil">
+                  <Link to={`/perfil/${usuarioId}`}> perfil</Link>   
+                </div>
               </div>
+
+
+
+
+
+
             ) : (
               <div className="Link">
                 <ul className="Link">
@@ -57,6 +80,7 @@ function Index() {
                 </ul>
               </div>
             )}
+
           </nav>
         </header>
       </div>
@@ -99,7 +123,7 @@ function Index() {
 
                   <h3>{Mapear.titulo}</h3>
                   <Link to={`/noticia/${Mapear.id_noticia}`}> Haz click para saber mas!!</Link>
-
+                    <br/>
 
                   {/* Si hay imagen en la BD */}
                   {Mapear.imagen && (
@@ -111,7 +135,6 @@ function Index() {
                   )}
                   <br />
 
-                  [-----]
                 </div>
               ))}
             </div>

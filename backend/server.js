@@ -4,10 +4,11 @@ const mysql = require('mysql');
 const cors = require('cors');
 // encriptar
 const Encriptar = require('bcryptjs');
-
 //para enviar email
 const nodemailer = require('nodemailer');
-
+//para que pueda enviar archivos a la base de datos
+const multer = require('multer');
+const path = require('path');
 //json web token, llamen a Dios
 const jwt = require('jsonwebtoken');
 
@@ -40,15 +41,34 @@ const transportar = nodemailer.createTransport({
 })
 
 
+// carpeta donde se guardarán las imágenes
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, "./imagenes/"); 
+    },
+    filename: (req, file, cb) => {
+        const uniqueName = Date.now() + path.extname(file.originalname);
+        cb(null, uniqueName);
+    }
+});
+
+const upload = multer({ storage: storage });
+
+// servir carpeta de imágenes
+app.use("/imagenes", express.static("imagenes"));
+
+
+
+
 //rutas
 
 app.get('/sus', (req, res) => {
     const sql = "SELECT * FROM usuarios";
-    BaseDatos.query(sql, (err,) => {
+    BaseDatos.query(sql, (err, result) => {
         if (err) {
             return res.json(err);
         } else {
-            return res.json();
+            return res.json(result);
         }
     });
 });
@@ -225,18 +245,33 @@ app.post('/NuevaContrasenia', async (req, res) => {
 
 //ruta para enviar la noticia desde el frontend
 
-app.post('/NuevaNoticia', async (req, res) => {
+app.post('/NuevaNoticia', upload.single("imagen"), (req, res) => {
     const { titulo, noticia, id_periodista, nombre_periodista } = req.body;
 
-    const consulta = `INSERT INTO Noticias (titulo, noticia, id_periodista, nombre_periodista, fecha_de_publicacion, hora_de_publicacion) VALUES (?, ?, ?, ?, CURDATE(), CURTIME())`;
-    BaseDatos.query(consulta, [titulo, noticia, id_periodista, nombre_periodista], (err, result) => {
-        if (err) {
-            console.error("error al insertar la noticia");
-            return res.status(500).json({ error:"error al insertar"})
-        }
-        return res.json("noticia regisrada, yay");
-    });
+    // Si hay una imagen, se guarda la ruta
+    let rutaImagen = null;
+    if (req.file) {
+        rutaImagen = "./imagenes/" + req.file.filename;
+    }
 
+    const consulta = `
+        INSERT INTO Noticias 
+        (titulo, noticia, id_periodista, nombre_periodista, imagen, fecha_de_publicacion, hora_de_publicacion) 
+        VALUES (?, ?, ?, ?, ?, CURDATE(), CURTIME())
+    `;
+
+    BaseDatos.query(
+        consulta,
+        [titulo, noticia, id_periodista, nombre_periodista, rutaImagen],
+        (err, result) => {
+            if (err) {
+                console.error("Error al insertar la noticia:", err);
+                return res.status(500).json({ error: "Error al insertar" });
+            }
+
+            return res.json({ mensaje: "Noticia registrada", id_noticia: result.insertId });
+        }
+    );
 });
 
 //ruta para encontrar las noticias en la pagina principal sexosexo
@@ -245,24 +280,27 @@ app.get('/TodasLasNoticias', (req, res) => {
     const Consulta = 'SELECT * FROM Noticias ORDER BY id_noticia DESC';
     BaseDatos.query(Consulta, (err, result) => {
         if (err) {
-            console.error("ERROR SQL:", err);  // 🔥 muestra el error verdadero
+            console.error("ERROR SQL:", err);  // muestra el error verdadero
             return res.status(500).json({ error: 'Error al obtener noticias' });
         }
         return res.json(result);
     });
 });
 
+
+
+
 //ruta para encontrar UNA sola noticia
 
-app.get('/IdNoticia/:id_noticia', (req, res)=>{
+app.get('/IdNoticia/:id_noticia', (req, res) => {
     const id_noticias = req.params.id_noticia;
-    
-    const Consulta = 'SELECT titulo, noticia, nombre_periodista from Noticias WHERE id_noticia = ?';
 
-    BaseDatos.query(Consulta, [id_noticias], (err, result)=>{
-        if(err){
+    const Consulta = 'SELECT titulo, noticia, nombre_periodista, imagen from Noticias WHERE id_noticia = ?';
+
+    BaseDatos.query(Consulta, [id_noticias], (err, result) => {
+        if (err) {
             console.error("NO SE PUDO ENCONTRAR", err);
-            return res.status(500).json({error: "no se encontro"});
+            return res.status(500).json({ error: "no se encontro" });
 
         }
         return res.json(result[0]);
@@ -273,15 +311,16 @@ app.get('/IdNoticia/:id_noticia', (req, res)=>{
 
 
 
+
 //ruta para los comentarios
-app.get('/comentario/:id_comentario', (req, res)=>{
+app.get('/comentario/:id_comentario', (req, res) => {
     const id_comentario = req.params.id_comentario;
 
-    const Consulta =' SELECT * FROM `comentarios` WHERE id_noticia =?; '
-    BaseDatos.query(Consulta, [id_comentario], (err, result)=>{
-        if(err){
+    const Consulta = ' SELECT * FROM `comentarios` WHERE id_noticia =?; '
+    BaseDatos.query(Consulta, [id_comentario], (err, result) => {
+        if (err) {
             console.error("no se pudo encontrar na");
-            return res.status(500).json({error:"llamen a cristo"})
+            return res.status(500).json({ error: "llamen a cristo" })
         }
         return res.json(result)
 
@@ -297,7 +336,7 @@ app.post('/NuevoComentario', async (req, res) => {
     BaseDatos.query(consulta, [comentario, usuario, id_usuario, id_noticia], (err, result) => {
         if (err) {
             console.error("error al insertar el comentario", err);
-            return res.status(500).json({ error:"error al insertar" });
+            return res.status(500).json({ error: "error al insertar" });
         }
         return res.json("comentario registrado, yay");
     });
@@ -322,9 +361,66 @@ app.delete('/BorrarComentario/:id_comentario/:id_usuario', (req, res) => {
     });
 });
 
+//ruta para borrar la noticia
+
+app.delete('/Borrar/Noticia/:id_noticia', (req, res) => {
+    const id_noticia = req.params.id_noticia;
+    const Consulta = 'DELETE FROM Noticias WHERE id_noticia = ?';
+
+    BaseDatos.query(Consulta, [id_noticia], (err, result) => {
+        if (err) {
+            console.error("Error al borrar la noticia", err);
+            return res.status(500).json({ error: "Error al borrar" });
+        }
+
+        return res.json({ mensaje: "Noticia borrada correctamente" });
+    });
+});
 
 
+//ruta para encontrar las noticias en el log de noticias
+app.get('/Log', (req, res) => {
 
+    const Consulta = 'SELECT * FROM Noticias ORDER BY fecha_de_publicacion DESC;';
+
+    BaseDatos.query(Consulta, (err, result) => {
+
+        if (err) {
+            console.error("Error al encontrar las noticias", err);
+            return res.status(500).json({ error: 'Error al encontrar las noticias' });
+        }
+
+        // Formatear fechas para quitar la zona horaria y el formato ISO
+        const noticias = result.map(noticia => ({
+            ...noticia,
+            fecha_de_publicacion: noticia.fecha_de_publicacion
+                ? noticia.fecha_de_publicacion.toISOString().split('T')[0]  // → "YYYY-MM-DD"
+                : null
+        }));
+
+        return res.json(noticias);
+    });
+
+});
+
+//ruta para el perfil del usuario
+app.get('/usuario/:id_usuario', (req, res) => {
+    const id_usuario = req.params.id_usuario;
+
+    const Consulta = 'SELECT usuario, fecha_nac FROM usuarios WHERE id = ?;';
+
+    BaseDatos.query(Consulta, [id_usuario], (err, result) => {
+
+        if (err) {
+            console.error("no se pudo enconrtrar");
+            return res.status(500).json({ error: "No se encontro usuario" });
+
+        }
+
+        return res.json(result[0]);
+    })
+
+})
 
 
 

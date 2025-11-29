@@ -32,7 +32,7 @@ function Plantilla() {
         axios
             .get(`http://localhost:8081/comentario/${id_noticia}`)
             .then(res => setListaComentarios(res.data))
-            .catch(() => {});
+            .catch(() => { });
     }, [id_noticia]);
 
     const enviarComentario = () => {
@@ -50,7 +50,7 @@ function Plantilla() {
                     .get(`http://localhost:8081/comentario/${id_noticia}`)
                     .then(res => setListaComentarios(res.data));
             })
-            .catch(() => {});
+            .catch(() => { });
     };
 
     const Borrar = (idComentario) => {
@@ -58,8 +58,22 @@ function Plantilla() {
             .then(() => {
                 window.location.reload();
             })
-            .catch(() => {});
+            .catch(() => { });
     };
+
+    const BorrarNoticia = (id_noticia) => {
+        axios.delete(`http://localhost:8081/Borrar/Noticia/${id_noticia}`)
+            .then(() => {
+                alert("Noticia borrada correctamente.");
+                window.location.href = "/log";
+            })
+
+        console.log('se ha borrado mimim');
+
+    }
+
+
+
 
     if (cargando) return;
 
@@ -71,28 +85,49 @@ function Plantilla() {
             <br />
             <Link to="/">Regresar</Link>
 
+            {usuarioID === "2" && (
+                <div>
+
+                    <button onClick={() => BorrarNoticia(id_noticia)}>Eliminar noticia</button>
+                </div>
+            )}
+
+
             <p> Autor: {CargarNoticia.nombre_periodista}</p>
             <p> {CargarNoticia.noticia}</p>
+            <img src={`http://localhost:8081/${CargarNoticia.imagen}`}
+            alt="sexo"
+            height="250px"
+            />
+            
 
             <hr />
 
             <h3>Comentarios</h3>
             <div className="comentarios">
+                {sesionActiva === true ? (
+                    <div className="crearcomentario">
+                        <input
+                            type="text"
+                            placeholder="ingresa tu comentario we"
+                            autoComplete="off"
+                            value={comentarioTexto}
+                            onChange={(e) => setComentarioTexto(e.target.value)}
+                        />
 
-                <div className="crearcomentario">
-                    <input
-                        type="text"
-                        placeholder="ingresa tu comentario we"
-                        autoComplete="off"
-                        value={comentarioTexto}
-                        onChange={(e) => setComentarioTexto(e.target.value)}
-                    />
 
-                    <button onClick={enviarComentario}>
-                        Añadir comentario
-                    </button>
-                </div>
 
+                        <button onClick={enviarComentario}>
+                            Añadir comentario
+                        </button>
+                    </div>
+
+                ) : (
+                    <div>
+                        <p> ingresa para comentar </p>
+                    </div>
+
+                )}
                 <br />
 
                 <div>
@@ -108,7 +143,7 @@ function Plantilla() {
                                 marginBottom: "10px"
                             }}
                         >
-                            <b>{Comemtario.usuario}</b>
+                           <Link to={`/perfil/${Comemtario.id_usuario}`}>  {Comemtario.usuario} </Link>
                             <p>{Comemtario.comentario}</p>
 
                             <small>
