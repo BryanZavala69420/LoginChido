@@ -1,8 +1,9 @@
-import React from "react";
-import { Link, useNavigate } from "react-router";
-import { Formik, Form, Field, ErrorMessage } from "formik";
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { Formik, Form, Field } from "formik";
 import axios from "axios";
-function CrearNotsicia() {
+
+function CrearNoticia() {
     let Navegar = useNavigate();
 
     const usuarioNombre = localStorage.getItem("usuarioNombre");
@@ -10,100 +11,81 @@ function CrearNotsicia() {
     const sesionActiva = localStorage.getItem("sesionIniciada") === "true";
     const usuarioRol = localStorage.getItem("usuarioRol");
 
+    const [archivo, setArchivo] = useState(null);
 
     const ValoresIniciales = {
         titulo: "",
         noticia: "",
         id_periodista: usuarioID,
         nombre_periodista: usuarioNombre
+    };
 
-    }
-
-    const EnviarNoticia = async (data) => {
+    const EnviarNoticia = async (values) => {
         try {
-            const respuesta = await axios.post("http://localhost:8081/NuevaNoticia", data)
-            console.log("respuesta del servidor", respuesta);
-            alert("yay, se guardo")
-            Navegar('/')
+            // ---- ARMAR FORM DATA ----
+            const formData = new FormData();
+            formData.append("titulo", values.titulo);
+            formData.append("noticia", values.noticia);
+            formData.append("id_periodista", values.id_periodista);
+            formData.append("nombre_periodista", values.nombre_periodista);
 
+            if (archivo) {
+                formData.append("imagen", archivo);
+            }
 
-        }
-        catch (error) {
+            const respuesta = await axios.post(
+                "http://localhost:8081/NuevaNoticia",
+                formData,
+                {
+                    headers: { "Content-Type": "multipart/form-data" }
+                }
+            );
+
+            console.log("respuesta del servidor", respuesta.data);
+            alert("Noticia guardada correctamente");
+            Navegar("/");
+        } catch (error) {
             console.error("error al enviar", error);
-
         }
-
-
-    }
-
+    };
 
     return (
         <div>
-
-
             {sesionActiva ? (
                 usuarioRol === "2" ? (
                     <div>
-                        <p>Periodista: {usuarioNombre}, {usuarioID}</p>
+                        <p>Periodista: {usuarioNombre}, ID {usuarioID}</p>
+
                         <Formik initialValues={ValoresIniciales} onSubmit={EnviarNoticia}>
-                            <Form>
-                                <label>Titulo de la noticia:</label>
-
-                                <Field
-                                    id="inputCreatePost"
-                                    name="titulo"
-                                    placeholder="titulo"
-                                    required
-                                />
+                            <Form encType="multipart/form-data">
+                                <label>Título:</label>
+                                <Field name="titulo" placeholder="Título" required />
                                 <br />
-
 
                                 <label>Noticia:</label>
-
-                                <Field
-                                    id="inputCreatePost"
-                                    name="noticia"
-                                    placeholder="escribe la noticia"
-                                    required
-
-                                />
+                                <Field name="noticia" placeholder="Noticia" required />
                                 <br />
 
+                                <label>Imagen:</label>
+                                <input
+                                    type="file"
+                                    accept="image/*"
+                                    onChange={(e) => setArchivo(e.target.files[0])}
+                                />
+                                <br /><br />
 
-                                <label>tags:</label>
-
-                                <br></br>
-                                <button type="submit"> enviar noticia</button>
+                                <button type="submit">Enviar noticia</button>
                             </Form>
                         </Formik>
-
-
                     </div>
-
-
                 ) : (
-                    <div>
-                        <p> No deberias estar aqui, acceso restringido</p>
-
-                    </div>
+                    <p>No deberías estar aquí, acceso restringido.</p>
                 )
-
-
-
-
-
             ) : (
-                <div>
-                    <p> Inicia sesion, por favor</p>
-
-
-                </div>
+                <p>Inicia sesión para publicar noticias.</p>
             )}
-
-
         </div>
-    )
-
+    );
 }
 
-export default CrearNotsicia;
+export default CrearNoticia;

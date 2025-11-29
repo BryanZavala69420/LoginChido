@@ -9,6 +9,9 @@ import CambiarContrasenia from './javascript/CambiarContrasenia';
 import Reset from './javascript/Reset';
 import CrearNotsicia from './javascript/CrearNoticia';
 import Plantilla from './javascript/NoticiaPlantilla';
+import PanelAdmin from './javascript/PanelAdmin';
+import LogNoticias from './javascript/LogNoticias';
+import PerfilPlantilla from './javascript/PerfilPlantilla';
 
 
 
@@ -25,7 +28,18 @@ function App() {
         <Route path='/reset' element = {<Reset/>}/>
 
         <Route path='/crearnoticia' element = {<CrearNotsicia/>}/>
+        
+        
         <Route path='/noticia/:id_noticia' element={<Plantilla/>}/>
+        
+
+        <Route path='/admin/' element={<PanelAdmin/>}/>
+
+        <Route path='/log' element={<LogNoticias/>}/>  \
+
+
+        <Route path='/perfil/:id_usuario' element={<PerfilPlantilla/>}/> 
+    
       </Routes>
 
     </BrowserRouter>
