@@ -94,6 +94,7 @@ function Plantilla() {
 
 
             <p> Autor: {CargarNoticia.nombre_periodista}</p>
+
             <p> {CargarNoticia.noticia}</p>
             <img src={`http://localhost:8081/${CargarNoticia.imagen}`}
             alt="sexo"
@@ -143,7 +144,12 @@ function Plantilla() {
                                 marginBottom: "10px"
                             }}
                         >
+                            <img src={`http://localhost:8081/${Comemtario.perfil}`}
+                            alt="perfil"
+                            height="50px" 
+                            />
                            <Link to={`/perfil/${Comemtario.id_usuario}`}>  {Comemtario.usuario} </Link>
+                            
                             <p>{Comemtario.comentario}</p>
 
                             <small>

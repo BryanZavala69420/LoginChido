@@ -34,7 +34,7 @@ function LogNoticias() {
         axios.delete(`http://localhost:8081/Borrar/Noticia/${id_noticia}`)
             .then(() => {
                 alert("Noticia borrada correctamente.");
-                window.location.href = "/";
+                window.location.href = "/log";
             })
 
         console.log('se ha borrado mimim');

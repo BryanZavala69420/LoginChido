@@ -2,9 +2,9 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import ValidarUsuario from './ValidarUsuario';
 import axios from 'axios';
-import '../css/Registrar.css'
-function Registrar() {
+import '../css/Registrar.css';
 
+function Registrar() {
 
     const Navegar = useNavigate();
 
@@ -13,11 +13,10 @@ function Registrar() {
         correo: '',
         fecha_nac: '',
         constrasena: ''
-
     });
 
+    const [imagen, setImagen] = useState(null);  
     const [errores, setErrores] = useState({});
-
     const [errorServer, setErrorServer] = useState("");
 
     const Poner = (event) => {
@@ -33,15 +32,29 @@ function Registrar() {
         }
     };
 
-
     const Enviar = (event) => {
         event.preventDefault();
+
         const Validar = ValidarUsuario(valores);
         setErrores(Validar);
 
         const sinErrores = Object.values(Validar).every(v => v === "");
+
         if (sinErrores) {
-            axios.post('http://localhost:8081/registrar', valores)
+
+            const formData = new FormData();
+            formData.append("usuario", valores.usuario);
+            formData.append("correo", valores.correo);
+            formData.append("fecha_nac", valores.fecha_nac);
+            formData.append("constrasena", valores.constrasena);
+
+            if (imagen) {
+                formData.append("perfil", imagen);
+            }
+
+            axios.post("http://localhost:8081/registrar", formData, {
+                headers: { "Content-Type": "multipart/form-data" }
+            })
                 .then(res => {
                     alert("Usuario registrado, yay!");
                     console.log(res);
@@ -52,78 +65,83 @@ function Registrar() {
                         fecha_nac: '',
                         constrasena: ''
                     });
+                    setImagen(null);
+
                     Navegar('/sesion');
                 })
                 .catch(err => {
-                    console.error("error al registrar xd", err);
+                    console.error("error al registrar", err);
 
                     if (err.response && err.response.status === 400) {
                         setErrorServer("");
                     } else {
-                        setErrorServer("El correo ya se ha utilzado");
+                        setErrorServer("El correo ya se ha utilizado");
                     }
-
                 });
-
         }
     };
 
     return (
-        <div class="registrar">
-
-            <div class="form-register">
-
-
+        <div className="registrar">
+            <div className="form-register">
 
                 <form onSubmit={Enviar}>
                     <h2> Registrate es gratis hdp </h2>
+
                     <p>Usuario</p>
                     <input
-                        class="controles"
+                        className="controles"
                         type="text"
                         name="usuario"
                         required
                         value={valores.usuario}
                         onChange={Poner}
                         placeholder="usuario"
-                    /> <br />
+                    />
 
                     <p>Correo</p>
                     <input
-                        class="controles"
+                        className="controles"
                         type="email"
                         name="correo"
                         required
                         value={valores.correo}
                         onChange={Poner}
-                        placeholder="correo electronico"
+                        placeholder="correo electrónico"
                     />
                     {errorServer && <p style={{ color: "red" }}>{errorServer}</p>}
 
-                    <br />
-
                     <p>Fecha de nacimiento</p>
                     <input
-                        class="controles"
+                        className="controles"
                         type="date"
-                        name="fecha_nac" // ✅ agregado
+                        name="fecha_nac"
                         value={valores.fecha_nac}
                         onChange={Poner}
                         required
-                    /><br />
+                    />
 
                     <p>Contraseña</p>
                     <input
-                        class="controles"
+                        className="controles"
                         type="password"
-                        name="constrasena" // ✅ agregado
+                        name="constrasena"
                         value={valores.constrasena}
                         onChange={Poner}
                         required
-                    /> <br />
+                    />
 
-                    <button class='botoncito' type="submit">Registrar</button>
+                    <p>Imagen de perfil</p>
+                    <input
+                        className="controles"
+                        type="file"
+                        accept="image/*"
+                        onChange={(e) => setImagen(e.target.files[0])}
+                    />
+
+                    <button className='botoncito' type="submit">Registrar</button>
                 </form>
+
                 <Link to="/"> Regresar </Link>
             </div>
         </div>

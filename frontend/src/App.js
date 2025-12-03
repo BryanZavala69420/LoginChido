@@ -12,6 +12,7 @@ import Plantilla from './javascript/NoticiaPlantilla';
 import PanelAdmin from './javascript/PanelAdmin';
 import LogNoticias from './javascript/LogNoticias';
 import PerfilPlantilla from './javascript/PerfilPlantilla';
+import LogUsuarios from './javascript/LogUsuarios';
 
 
 
@@ -39,7 +40,11 @@ function App() {
 
 
         <Route path='/perfil/:id_usuario' element={<PerfilPlantilla/>}/> 
-    
+
+
+        <Route path='/Log/Usuarios' element={<LogUsuarios/>}/>    
+
+
       </Routes>
 
     </BrowserRouter>
