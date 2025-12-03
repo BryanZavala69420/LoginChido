@@ -2,33 +2,42 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import uas from "../imagenes/UAS-3.jpg";
 import axios from "axios";
-//import  '../css/Principal.css';
-
-
+//import '../css/Principal.css'; 
 function Index() {
   const sesionActiva = localStorage.getItem("sesionIniciada") === "true";
   const usuarioNombre = localStorage.getItem("usuarioNombre");
   const usuarioRol = localStorage.getItem("usuarioRol");
-    const usuarioId = localStorage.getItem("usuarioId");
-
+  const usuarioId = localStorage.getItem("usuarioId");
 
   const [noticias, setNoticias] = useState([]);
   const [cargando, setCargando] = useState(true);
-
-
+  const [usuario, setUsuario] = useState(null); 
 
   const cerrarSesion = () => {
     localStorage.removeItem("sesionIniciada");
     localStorage.removeItem("usuarioNombre");
     localStorage.removeItem("usuarioId");
+    localStorage.removeItem("usuarioPerfil");
     window.location.reload();
   };
+
+  useEffect(() => {
+    if (!usuarioId) return;
+
+    axios
+      .get(`http://localhost:8081/usuario/${usuarioId}`)
+      .then((response) => {
+        setUsuario(response.data);
+      })
+      .catch((err) => {
+        console.error("Error al cargar usuario:", err);
+      });
+  }, [usuarioId]);
 
   useEffect(() => {
     axios
       .get("http://localhost:8081/TodasLasNoticias")
       .then((response) => {
-        console.log("Noticias:", response.data);
         setNoticias(response.data);
         setCargando(false);
       })
@@ -48,39 +57,42 @@ function Index() {
 
           <nav id="nav-list">
             {sesionActiva ? (
-
-              
               <div className="nose">
-                
                 <p>Bienvenido, {usuarioNombre}</p>
-                {usuarioRol === "2" &&(
+
+                {usuario?.perfil && (
+                  <img
+                    src={`http://localhost:8081/${usuario.perfil}`}
+                    alt="Perfil"
+                    height="80"
+                  />
+                )}
+
+                {usuarioRol === "2" && (
                   <div>
-                    <Link to={'/admin'}>Panel del admin</Link>
+                    <Link to={"/admin"}>Panel del admin</Link>
                   </div>
                 )}
-                
+
                 <div className="boton">
                   <button onClick={cerrarSesion}>Cerrar sesión</button>
                 </div>
-                <div className=" perfil">
-                  <Link to={`/perfil/${usuarioId}`}> perfil</Link>   
+                <div className="perfil">
+                  <Link to={`/perfil/${usuarioId}`}>perfil</Link>
                 </div>
               </div>
-
-
-
-
-
-
             ) : (
               <div className="Link">
                 <ul className="Link">
-                  <li><Link to="/sesion">Iniciar sesión</Link></li>
-                  <li><Link to="/registrar">Registrar</Link></li>
+                  <li>
+                    <Link to="/sesion">Iniciar sesión</Link>
+                  </li>
+                  <li>
+                    <Link to="/registrar">Registrar</Link>
+                  </li>
                 </ul>
               </div>
             )}
-
           </nav>
         </header>
       </div>
@@ -120,12 +132,12 @@ function Index() {
             <div className="lista-noticias">
               {noticias.map((Mapear) => (
                 <div key={Mapear.id_noticia} className="noticia-card">
-
                   <h3>{Mapear.titulo}</h3>
-                  <Link to={`/noticia/${Mapear.id_noticia}`}> Haz click para saber mas!!</Link>
-                    <br/>
+                  <Link to={`/noticia/${Mapear.id_noticia}`}>
+                    Haz click para saber más!!
+                  </Link>
+                  <br />
 
-                  {/* Si hay imagen en la BD */}
                   {Mapear.imagen && (
                     <img
                       src={`http://localhost:8081/${Mapear.imagen}`}
@@ -134,7 +146,6 @@ function Index() {
                     />
                   )}
                   <br />
-
                 </div>
               ))}
             </div>

@@ -15,6 +15,7 @@ function PanelAdmin() {
                 <div>
                     <header>
                         <h1> Panel admincito</h1>
+                        <Link to={'/'}>Regresar</Link>
                     </header>
 
                     <div>
@@ -27,6 +28,9 @@ function PanelAdmin() {
 
                     </div>
 
+                    <div>
+                        <Link to={'/Log/Usuarios'}>Log Usuarios</Link>
+                    </div>
 
 
                 </div>

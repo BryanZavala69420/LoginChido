@@ -52,12 +52,27 @@ const storage = multer.diskStorage({
     }
 });
 
+const perfiles = multer.diskStorage({
+    destination: (req, file, cb)=>{
+        cb(null, "./perfiles/");
+    },
+    filename:(req, file, cb)=>{
+        const uniqueName = Date.now() + path.extname(file.originalname);
+        cb(null, uniqueName);     
+    }
+});
+
+
 const upload = multer({ storage: storage });
+
+
+const upload_Perfiles = multer ({storage: perfiles});
 
 // servir carpeta de imágenes
 app.use("/imagenes", express.static("imagenes"));
 
-
+//servir para carpeta de perfiles
+app.use("/perfiles", express.static("perfiles"));
 
 
 //rutas
@@ -73,31 +88,41 @@ app.get('/sus', (req, res) => {
     });
 });
 //ruta para registrar
-app.post('/registrar', (req, res) => {
+app.post('/registrar', upload_Perfiles.single("perfil"), (req, res) => {
     console.log("Datos recibidos:", req.body);
 
     const { usuario, fecha_nac, correo, constrasena } = req.body;
 
+    let rutaImagen = null;
+    if (req.file) {
+        rutaImagen = "./perfiles/" + req.file.filename;
+    }
+
     Encriptar.hash(constrasena, 10)
         .then(hash => {
-            const consulta = "INSERT INTO usuarios (usuario, fecha_nac, correo, contrasena) VALUES (?, ?, ?, ?)";
-            const valores = [usuario, fecha_nac, correo, hash];
+            const consulta = `
+                INSERT INTO usuarios (usuario, fecha_nac, correo, contrasena, perfil)
+                VALUES (?, ?, ?, ?, ?)
+            `;
+
+            const valores = [usuario, fecha_nac, correo, hash, rutaImagen];
 
             BaseDatos.query(consulta, valores, (err, data) => {
                 if (err) {
                     console.error("ERROR, LLAMEN A DIOS:", err);
-                    return res.status(500).json({ mensaje: "Error en MySQL", error: err.message });
+                    return res.status(500).json({ mensaje: "Error en MySQL", error: err });
                 }
-                return res.status(200).json("exito, yay!");
+                return res.status(200).json({ mensaje: "Registro exitoso", id_usuario: data.insertId });
             });
         })
         .catch(err => {
-            console.error("error al encriptar por alguna razon...");
-            return res.status(500).json({ mensaje: "fallo algo, no se" });
+            console.error("Error al encriptar:", err);
+            return res.status(500).json({ mensaje: "Error inesperado" });
         });
 });
 
 
+//ruta para registrar la sesion
 app.post('/sesiones', (req, res) => {
 
     const { id_usuario } = req.body;
@@ -243,6 +268,32 @@ app.post('/NuevaContrasenia', async (req, res) => {
 
 });
 
+
+// Ruta para eliminar usuario
+app.delete('/borrarUsuario/:id', (req, res) => {
+
+    const id_usuario = req.params.id;   
+
+    const Consulta = 'DELETE FROM usuarios WHERE id = ?';
+
+    BaseDatos.query(Consulta, [id_usuario], (err, result) => {
+
+        if (err) {
+            console.error("Error al borrar el usuario:", err);
+            return res.status(500).json({ error: "Error al borrar el usuario" });
+        }
+
+        // Si no se borró nada (id no existe)
+        if (result.affectedRows === 0) {
+            return res.status(404).json({ error: "Usuario no encontrado" });
+        }
+
+        return res.json({ mensaje: "Usuario borrado correctamente" });
+    });
+});
+
+
+
 //ruta para enviar la noticia desde el frontend
 
 app.post('/NuevaNoticia', upload.single("imagen"), (req, res) => {
@@ -308,23 +359,25 @@ app.get('/IdNoticia/:id_noticia', (req, res) => {
 
 });
 
-
-
-
-
 //ruta para los comentarios
 app.get('/comentario/:id_comentario', (req, res) => {
     const id_comentario = req.params.id_comentario;
 
-    const Consulta = ' SELECT * FROM `comentarios` WHERE id_noticia =?; '
+   const Consulta = `
+        SELECT c.*, u.perfil 
+        FROM comentarios c
+        INNER JOIN usuarios u ON c.id_usuario = u.id
+        WHERE c.id_noticia = ?
+        ORDER BY c.id_comentario DESC;
+    `;
+
     BaseDatos.query(Consulta, [id_comentario], (err, result) => {
         if (err) {
             console.error("no se pudo encontrar na");
             return res.status(500).json({ error: "llamen a cristo" })
         }
         return res.json(result)
-
-    })
+    });
 
 })
 
@@ -378,6 +431,12 @@ app.delete('/Borrar/Noticia/:id_noticia', (req, res) => {
 });
 
 
+
+
+
+
+
+
 //ruta para encontrar las noticias en el log de noticias
 app.get('/Log', (req, res) => {
 
@@ -407,7 +466,7 @@ app.get('/Log', (req, res) => {
 app.get('/usuario/:id_usuario', (req, res) => {
     const id_usuario = req.params.id_usuario;
 
-    const Consulta = 'SELECT usuario, fecha_nac FROM usuarios WHERE id = ?;';
+    const Consulta = 'SELECT id, usuario, fecha_nac, perfil FROM usuarios WHERE id = ?;';
 
     BaseDatos.query(Consulta, [id_usuario], (err, result) => {
 
@@ -422,7 +481,47 @@ app.get('/usuario/:id_usuario', (req, res) => {
 
 })
 
+//ruta para el perfil del usuario
+app.post('/usuario/:id_usuario_perfil', upload_Perfiles.single("perfil"), (req, res) => {
+    const id_usuario = req.params.id_usuario_perfil;
+    const { usuario } = req.body;
 
+    let rutaImagen = null;
+
+    // Si se envió una nueva imagen
+    if (req.file) {
+        rutaImagen = "./perfiles/" + req.file.filename;
+    }
+
+    let Consulta = "";
+    let valores = [];
+
+    // Si viene imagen y usuario actualizar ambos
+    if (rutaImagen && usuario) {
+        Consulta = `UPDATE usuarios SET usuario = ?, perfil = ? WHERE id = ?`;
+        valores = [usuario, rutaImagen, id_usuario];
+
+    // Solo imagen
+    } else if (rutaImagen) {
+        Consulta = `UPDATE usuarios SET perfil = ? WHERE id = ?`;
+        valores = [rutaImagen, id_usuario];
+
+    // Solo nombre
+    } else if (usuario) {
+        Consulta = `UPDATE usuarios SET usuario = ? WHERE id = ?`;
+        valores = [usuario, id_usuario];
+    } else {
+        return res.status(400).json({ error: "No se recibió ningún dato para actualizar" });
+    }
+
+    BaseDatos.query(Consulta, valores, (err, result) => {
+        if (err) {
+            console.error("Error al actualizar el perfil:", err);
+            return res.status(500).json({ error: "No se pudo actualizar el perfil" });
+        }
+        return res.status(200).json({ mensaje: "Perfil actualizado correctamente" });
+    });
+});
 
 
 app.listen(port, () => {
