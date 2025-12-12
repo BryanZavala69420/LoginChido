@@ -346,7 +346,7 @@ app.get('/TodasLasNoticias', (req, res) => {
 app.get('/IdNoticia/:id_noticia', (req, res) => {
     const id_noticias = req.params.id_noticia;
 
-    const Consulta = 'SELECT titulo, noticia, nombre_periodista, imagen from Noticias WHERE id_noticia = ?';
+    const Consulta = 'SELECT id_noticia, titulo, noticia, nombre_periodista, imagen from Noticias WHERE id_noticia = ?';
 
     BaseDatos.query(Consulta, [id_noticias], (err, result) => {
         if (err) {
@@ -380,7 +380,7 @@ app.get('/comentario/:id_comentario', (req, res) => {
     });
 
 })
-
+//ruta para que se pueda hacer un nuevo comentario
 app.post('/NuevoComentario', async (req, res) => {
     const { comentario, usuario, id_usuario, id_noticia } = req.body;
 
@@ -466,7 +466,7 @@ app.get('/Log', (req, res) => {
 app.get('/usuario/:id_usuario', (req, res) => {
     const id_usuario = req.params.id_usuario;
 
-    const Consulta = 'SELECT id, usuario, fecha_nac, perfil FROM usuarios WHERE id = ?;';
+    const Consulta = 'SELECT id, usuario, fecha_nac, perfil, sobre_mi FROM usuarios WHERE id = ?;';
 
     BaseDatos.query(Consulta, [id_usuario], (err, result) => {
 
@@ -481,45 +481,44 @@ app.get('/usuario/:id_usuario', (req, res) => {
 
 })
 
-//ruta para el perfil del usuario
-app.post('/usuario/:id_usuario_perfil', upload_Perfiles.single("perfil"), (req, res) => {
-    const id_usuario = req.params.id_usuario_perfil;
-    const { usuario } = req.body;
+//ruta para  cambiar cosas en el perfil del usuario
+app.post('/usuario/:id', upload_Perfiles.single("perfil"), (req, res) => {
+    const id = req.params.id;
+    const { usuario, sobre_mi } = req.body;
 
-    let rutaImagen = null;
+    const cambios = [];
+    const valores = [];
 
-    // Si se envió una nueva imagen
+    if (usuario) {
+        cambios.push("usuario = ?");
+        valores.push(usuario);
+    }
+
+    if (sobre_mi) {
+        cambios.push("sobre_mi = ?");
+        valores.push(sobre_mi);
+    }
+
     if (req.file) {
-        rutaImagen = "./perfiles/" + req.file.filename;
+        const rutaImagen = "./perfiles/" + req.file.filename;
+        cambios.push("perfil = ?");
+        valores.push(rutaImagen);
     }
 
-    let Consulta = "";
-    let valores = [];
-
-    // Si viene imagen y usuario actualizar ambos
-    if (rutaImagen && usuario) {
-        Consulta = `UPDATE usuarios SET usuario = ?, perfil = ? WHERE id = ?`;
-        valores = [usuario, rutaImagen, id_usuario];
-
-    // Solo imagen
-    } else if (rutaImagen) {
-        Consulta = `UPDATE usuarios SET perfil = ? WHERE id = ?`;
-        valores = [rutaImagen, id_usuario];
-
-    // Solo nombre
-    } else if (usuario) {
-        Consulta = `UPDATE usuarios SET usuario = ? WHERE id = ?`;
-        valores = [usuario, id_usuario];
-    } else {
-        return res.status(400).json({ error: "No se recibió ningún dato para actualizar" });
+    if (cambios.length === 0) {
+        return res.status(400).json({ error: "No se recibió nada para actualizar" });
     }
 
-    BaseDatos.query(Consulta, valores, (err, result) => {
+    valores.push(id);
+
+    const sql = `UPDATE usuarios SET ${cambios.join(", ")} WHERE id = ?`;
+
+    BaseDatos.query(sql, valores, (err) => {
         if (err) {
             console.error("Error al actualizar el perfil:", err);
             return res.status(500).json({ error: "No se pudo actualizar el perfil" });
         }
-        return res.status(200).json({ mensaje: "Perfil actualizado correctamente" });
+        res.json({ mensaje: "Perfil actualizado correctamente" });
     });
 });
 
