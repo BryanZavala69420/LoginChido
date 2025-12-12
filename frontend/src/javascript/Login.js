@@ -41,8 +41,9 @@ function Login() {
         localStorage.setItem("usuarioId", res.data.id_usuario);
         localStorage.setItem("usuarioPerfil", res.data.perfil)
         const idUsuario = res.data.id_usuario;
+                axios.post('http://localhost:8081/sesiones', { id_usuario: idUsuario })
 
-        axios.post('http://localhost:8081/sesiones', { id_usuario: idUsuario })
+
 
         Navegar('/');
     } else {

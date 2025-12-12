@@ -77,6 +77,7 @@ function CrearNoticia() {
                                 <button type="submit">Enviar noticia</button>
                             </Form>
                         </Formik>
+                        <Link to={'/admin'}> Regresar </Link>
                     </div>
                 ) : (
                     <p>No deberías estar aquí, acceso restringido.</p>

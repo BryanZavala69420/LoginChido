@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import uas from "../imagenes/UAS-3.jpg";
+import banner from "../imagenes/Banner2.png";
 import axios from "axios";
-//import '../css/Principal.css'; 
+import "../css/Principal2.css";
+
 function Index() {
   const sesionActiva = localStorage.getItem("sesionIniciada") === "true";
   const usuarioNombre = localStorage.getItem("usuarioNombre");
@@ -11,7 +12,10 @@ function Index() {
 
   const [noticias, setNoticias] = useState([]);
   const [cargando, setCargando] = useState(true);
-  const [usuario, setUsuario] = useState(null); 
+  const [usuario, setUsuario] = useState(null);
+  const [noticiaDestacada, setNoticiaDestacada] = useState(null);
+
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const cerrarSesion = () => {
     localStorage.removeItem("sesionIniciada");
@@ -26,12 +30,8 @@ function Index() {
 
     axios
       .get(`http://localhost:8081/usuario/${usuarioId}`)
-      .then((response) => {
-        setUsuario(response.data);
-      })
-      .catch((err) => {
-        console.error("Error al cargar usuario:", err);
-      });
+      .then((r) => setUsuario(r.data))
+      .catch(() => {});
   }, [usuarioId]);
 
   useEffect(() => {
@@ -41,10 +41,14 @@ function Index() {
         setNoticias(response.data);
         setCargando(false);
       })
-      .catch((error) => {
-        console.error("Error al obtener noticias:", error);
-        setCargando(false);
-      });
+      .catch(() => {});
+  }, []);
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:8081/IdNoticia/4")
+      .then((response) => setNoticiaDestacada(response.data))
+      .catch(() => {});
   }, []);
 
   return (
@@ -52,44 +56,57 @@ function Index() {
       <div className="cabezal">
         <header>
           <div className="hola">
-            <h1>Página principal</h1>
+            <div className="banner">
+              <img
+                src={banner}
+                alt="banner"
+                onClick={() => window.location.reload()}
+              />
+            </div>
+
+            <button
+              className="hamburger"
+              onClick={() => setSidebarOpen(true)}
+            >
+              ☰
+            </button>
           </div>
 
-          <nav id="nav-list">
+          <nav className="nav-list">
             {sesionActiva ? (
               <div className="nose">
-                <p>Bienvenido, {usuarioNombre}</p>
-
                 {usuario?.perfil && (
                   <img
                     src={`http://localhost:8081/${usuario.perfil}`}
                     alt="Perfil"
-                    height="80"
                   />
                 )}
 
+                <p>{usuarioNombre}</p>
+
                 {usuarioRol === "2" && (
-                  <div>
-                    <Link to={"/admin"}>Panel del admin</Link>
-                  </div>
+                  <ul className="Link">
+                    <li><Link to="/admin">Panel del admin</Link></li>
+                  </ul>
                 )}
+
+                <div className="perfil">
+                  <ul className="Link">
+                    <li><Link to={`/perfil/${usuarioId}`}>Perfil</Link></li>
+                    <li><Link to="/nosotros">Sobre nosotros</Link></li>
+                  </ul>
+                </div>
 
                 <div className="boton">
                   <button onClick={cerrarSesion}>Cerrar sesión</button>
                 </div>
-                <div className="perfil">
-                  <Link to={`/perfil/${usuarioId}`}>perfil</Link>
-                </div>
               </div>
             ) : (
-              <div className="Link">
+              <div>
                 <ul className="Link">
-                  <li>
-                    <Link to="/sesion">Iniciar sesión</Link>
-                  </li>
-                  <li>
-                    <Link to="/registrar">Registrar</Link>
-                  </li>
+                  <li><Link to="/sesion">Iniciar sesión</Link></li>
+                  <li><Link to="/registrar">Registrar</Link></li>
+                  <li><Link to="/nosotros">Sobre nosotros</Link></li>
                 </ul>
               </div>
             )}
@@ -97,27 +114,75 @@ function Index() {
         </header>
       </div>
 
+      <div className={`sidebar ${sidebarOpen ? "open" : ""}`}>
+        <button className="close-btn" onClick={() => setSidebarOpen(false)}>
+          ✕
+        </button>
+
+        {sesionActiva ? (
+          <div className="sidebar-content">
+            {usuario?.perfil && (
+              <img
+                src={`http://localhost:8081/${usuario.perfil}`}
+                alt="perfil"
+                className="sidebar-img"
+              />
+            )}
+
+            <p>{usuarioNombre}</p>
+
+            {usuarioRol === "2" && (
+              <Link to="/admin" onClick={() => setSidebarOpen(false)}>
+                Panel del admin
+              </Link>
+            )}
+
+            <Link to={`/perfil/${usuarioId}`} onClick={() => setSidebarOpen(false)}>
+              Perfil
+            </Link>
+
+            <Link to="/nosotros" onClick={() => setSidebarOpen(false)}>
+              Sobre nosotros
+            </Link>
+
+            <button
+              className="cerrar-movil"
+              onClick={() => {
+                setSidebarOpen(false);
+                cerrarSesion();
+              }}
+            >
+              Cerrar sesión
+            </button>
+          </div>
+        ) : (
+          <div className="sidebar-content">
+            <Link to="/sesion" onClick={() => setSidebarOpen(false)}>Iniciar sesión</Link>
+            <Link to="/registrar" onClick={() => setSidebarOpen(false)}>Registrar</Link>
+            <Link to="/nosotros" onClick={() => setSidebarOpen(false)}>Sobre nosotros</Link>
+          </div>
+        )}
+      </div>
+
       <main>
         <div className="Cuerpo-principal">
-          <div className="titulo-principal">
-            <h2>La UAS</h2>
-            <br />
-          </div>
-
           <div className="contenido">
-            <div className="texto">
-              <p>texto logo</p>
-            </div>
+            <h1>Noticia destacada</h1>
 
-            <div className="imagen-uas">
-              <img src={uas} alt="uas logo" width="250" />
-            </div>
-          </div>
+            {noticiaDestacada && (
+              <div className="noticiaDestacada">
+                <h3>{noticiaDestacada.titulo}</h3>
 
-          <br />
+                <img
+                  src={`http://localhost:8081/${noticiaDestacada.imagen}`}
+                  alt="destacada"
+                />
 
-          <div className="ejemplito">
-            <Link to="/ejemplo">Ejemplo</Link>
+                <Link to={`/noticia/${noticiaDestacada.id_noticia}`}>
+                  Haz click para saber más
+                </Link>
+              </div>
+            )}
           </div>
 
           <hr />
@@ -126,26 +191,22 @@ function Index() {
 
           {cargando ? (
             <p>Cargando noticias...</p>
-          ) : noticias.length === 0 ? (
-            <p>No hay noticias disponibles.</p>
           ) : (
             <div className="lista-noticias">
-              {noticias.map((Mapear) => (
-                <div key={Mapear.id_noticia} className="noticia-card">
-                  <h3>{Mapear.titulo}</h3>
-                  <Link to={`/noticia/${Mapear.id_noticia}`}>
-                    Haz click para saber más!!
-                  </Link>
-                  <br />
+              {noticias.map((n) => (
+                <div key={n.id_noticia} className="noticia-card">
+                  <h3>{n.titulo}</h3>
 
-                  {Mapear.imagen && (
+                  <Link to={`/noticia/${n.id_noticia}`} className="enlace">
+                    Haz click para saber más
+                  </Link>
+
+                  {n.imagen && (
                     <img
-                      src={`http://localhost:8081/${Mapear.imagen}`}
-                      alt="imagen noticia"
-                      width="200"
+                      src={`http://localhost:8081/${n.imagen}`}
+                      alt="noticia"
                     />
                   )}
-                  <br />
                 </div>
               ))}
             </div>

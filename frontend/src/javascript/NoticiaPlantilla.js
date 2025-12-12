@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { Link, useParams } from "react-router";
 import axios from "axios";
 import { useState } from "react";
-
+import '../css/NoticiaPlantilla.css'
 function Plantilla() {
     let { id_noticia } = useParams();
 
@@ -23,149 +23,149 @@ function Plantilla() {
                 setCargarNoticia(response.data);
                 setCargando(false);
             })
-            .catch(() => {
-                setCargando(false);
-            });
+            .catch(() => setCargando(false));
     }, [id_noticia]);
 
     useEffect(() => {
         axios
             .get(`http://localhost:8081/comentario/${id_noticia}`)
-            .then(res => setListaComentarios(res.data))
-            .catch(() => { });
+            .then((res) => setListaComentarios(res.data))
+            .catch(() => {});
     }, [id_noticia]);
 
     const enviarComentario = () => {
         if (comentarioTexto.trim() === "") return;
 
-        axios.post("http://localhost:8081/NuevoComentario", {
-            comentario: comentarioTexto,
-            usuario: usuarioNombre,
-            id_usuario: usuarioID,
-            id_noticia: id_noticia
-        })
+        axios
+            .post("http://localhost:8081/NuevoComentario", {
+                comentario: comentarioTexto,
+                usuario: usuarioNombre,
+                id_usuario: usuarioID,
+                id_noticia: id_noticia,
+            })
             .then(() => {
                 setComentarioTexto("");
                 axios
                     .get(`http://localhost:8081/comentario/${id_noticia}`)
-                    .then(res => setListaComentarios(res.data));
+                    .then((res) => setListaComentarios(res.data));
             })
-            .catch(() => { });
+            .catch(() => {});
     };
 
     const Borrar = (idComentario) => {
-        axios.delete(`http://localhost:8081/BorrarComentario/${idComentario}/${usuarioID}`)
-            .then(() => {
-                window.location.reload();
-            })
-            .catch(() => { });
+        axios
+            .delete(`http://localhost:8081/BorrarComentario/${idComentario}/${usuarioID}`)
+            .then(() => window.location.reload())
+            .catch(() => {});
     };
 
-    const BorrarNoticia = (id_noticia) => {
-        axios.delete(`http://localhost:8081/Borrar/Noticia/${id_noticia}`)
+    const BorrarNoticia = () => {
+        axios
+            .delete(`http://localhost:8081/Borrar/Noticia/${id_noticia}`)
             .then(() => {
                 alert("Noticia borrada correctamente.");
                 window.location.href = "/log";
-            })
+            });
+    };
 
-        console.log('se ha borrado mimim');
-
-    }
-
-
-
-
-    if (cargando) return;
+    if (cargando || !CargarNoticia) return;
 
     return (
-        <div>
+        <div className="noticia-container">
 
-            <h1> {CargarNoticia.titulo}</h1>
+            {/* ENCABEZADO */}
+            <div className="noticia-header">
+                <h1>{CargarNoticia.titulo}</h1>
 
-            <br />
-            <Link to="/">Regresar</Link>
+                <Link className="volver-link" to="/">Regresar</Link>
 
-            {usuarioID === "2" && (
-                <div>
+                {usuarioID === "2" && (
+                    <button 
+                        className="boton-eliminar-noticia"
+                        onClick={BorrarNoticia}
+                    >
+                        Eliminar noticia
+                    </button>
+                )}
+            </div>
 
-                    <button onClick={() => BorrarNoticia(id_noticia)}>Eliminar noticia</button>
-                </div>
-            )}
+            {/* INFO DE AUTOR + TEXTO */}
+            <div className="noticia-info">
+                <p className="autor">Autor: {CargarNoticia.nombre_periodista}</p>
+                <p className="noticia-texto">{CargarNoticia.noticia}</p>
+            </div>
 
-
-            <p> Autor: {CargarNoticia.nombre_periodista}</p>
-
-            <p> {CargarNoticia.noticia}</p>
-            <img src={`http://localhost:8081/${CargarNoticia.imagen}`}
-            alt="sexo"
-            height="250px"
-            />
-            
+            {/* IMAGEN */}
+            <div className="noticia-imagen-box">
+                <img
+                    className="noticia-imagen"
+                    src={`http://localhost:8081/${CargarNoticia.imagen}`}
+                    alt="imagen"
+                />
+            </div>
 
             <hr />
 
-            <h3>Comentarios</h3>
-            <div className="comentarios">
-                {sesionActiva === true ? (
-                    <div className="crearcomentario">
+            {/* COMENTARIOS */}
+            <div className="comentarios-box">
+                <h3>Comentarios</h3>
+
+                {sesionActiva ? (
+                    <div className="crear-comentario-box">
                         <input
                             type="text"
-                            placeholder="ingresa tu comentario we"
-                            autoComplete="off"
+                            placeholder="Ingresa tu comentario"
                             value={comentarioTexto}
                             onChange={(e) => setComentarioTexto(e.target.value)}
                         />
-
-
-
                         <button onClick={enviarComentario}>
                             Añadir comentario
                         </button>
                     </div>
-
                 ) : (
-                    <div>
-                        <p> ingresa para comentar </p>
-                    </div>
-
+                    <p>Ingresa para comentar</p>
                 )}
-                <br />
 
-                <div>
-                    {listaComentarios.length === 0 && (
-                        <p>No hay comentarios aún</p>
-                    )}
+                {listaComentarios.length === 0 && (
+                    <p>No hay comentarios aún</p>
+                )}
 
-                    {listaComentarios.map((Comemtario) => (
-                        <div key={Comemtario.id_comentario}
-                            style={{
-                                border: "1px solid #ccc",
-                                padding: "10px",
-                                marginBottom: "10px"
-                            }}
-                        >
-                            <img src={`http://localhost:8081/${Comemtario.perfil}`}
-                            alt="perfil"
-                            height="50px" 
-                            />
-                           <Link to={`/perfil/${Comemtario.id_usuario}`}>  {Comemtario.usuario} </Link>
+                <div className="lista-comentarios">
+                    {listaComentarios.map((Comentario) => (
+                        <div key={Comentario.id_comentario} className="comentario-card">
                             
-                            <p>{Comemtario.comentario}</p>
+                            <div className="comentario-header">
+                                <img
+                                    src={`http://localhost:8081/${Comentario.perfil}`}
+                                    alt="perfil"
+                                    className="comentario-perfil"
+                                />
 
-                            <small>
-                                {Comemtario.fecha_de_comentario} {Comemtario.hora_de_comentario}
+                                <Link 
+                                    to={`/perfil/${Comentario.id_usuario}`} 
+                                    className="comentario-usuario"
+                                >
+                                    {Comentario.usuario}
+                                </Link>
+                            </div>
+
+                            <p className="comentario-texto">{Comentario.comentario}</p>
+
+                            <small className="comentario-fecha">
+                                {Comentario.fecha_de_comentario} {Comentario.hora_de_comentario}
                             </small>
 
-                            {sesionActiva && Comemtario.id_usuario == usuarioID && (
-                                <button onClick={() => Borrar(Comemtario.id_comentario)}>
+                            {sesionActiva && Comentario.id_usuario == usuarioID && (
+                                <button
+                                    className="boton-borrar-comentario"
+                                    onClick={() => Borrar(Comentario.id_comentario)}
+                                >
                                     Borrar Comentario
                                 </button>
                             )}
-
                         </div>
                     ))}
                 </div>
-
             </div>
         </div>
     );
