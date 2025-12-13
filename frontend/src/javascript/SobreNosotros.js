@@ -18,6 +18,8 @@ function SobreNosotros() {
         localStorage.removeItem("usuarioNombre");
         localStorage.removeItem("usuarioId");
         localStorage.removeItem("usuarioPerfil");
+        localStorage.removeItem("usuarioRol");
+
         window.location.reload();
     };
 
