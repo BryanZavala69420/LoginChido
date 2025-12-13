@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router";
-
+import '../css/PanelAdmin.css'
 
 function PanelAdmin() {
     const usuarioRol = localStorage.getItem("usuarioRol");
@@ -9,7 +9,9 @@ function PanelAdmin() {
     return (
 
 
-        <div>
+        <div className="Contendor-afuera">
+            <div className="contenedor-general">
+
 
             {usuarioRol === "2" ? (
                 <div>
@@ -17,18 +19,18 @@ function PanelAdmin() {
                         <h1> Panel admincito</h1>
                         <Link to={'/'}>Regresar</Link>
                     </header>
-
-                    <div>
+ 
+                    <div className="Crear-Noticia">
                         <Link to={'/crearnoticia'}> Crear Noticia </Link>
 
                     </div>
 
-                    <div>
+                    <div className="Log-Noticias">
                         <Link to={'/log'}> Log Noticias </Link>
 
                     </div>
 
-                    <div>
+                    <div className="Log-Usuarios">
                         <Link to={'/Log/Usuarios'}>Log Usuarios</Link>
                     </div>
 
@@ -43,6 +45,8 @@ function PanelAdmin() {
 
 
         </div>
+                    </div>
+
     )
 }
 

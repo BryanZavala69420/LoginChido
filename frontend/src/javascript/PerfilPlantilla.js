@@ -70,13 +70,10 @@ function PerfilPlantilla() {
         <div className="contenedor-todo">
             <div className="contenedor-usuario">
                 <div className="contenedor-2-usuario">
-
-                    {/* NOMBRE DEL USUARIO */}
                     <div className="nombre-usuario">
                         <h1>{cargarUsuario.usuario}</h1>
                     </div>
 
-                    {/* FOTO Y SOBRE MI */}
                     <div className="contenedor-3-usuario">
                         <div className="perfil-usuario">
                             <img
@@ -94,14 +91,13 @@ function PerfilPlantilla() {
                         </div>
                     </div>
 
-                    {/* FORMULARIO DE EDICIÓN */}
                     {usuarioId === Number(cargarUsuario.id) && (
                         <div className="editar-perfil-container">
                             <button
                                 className="boton-editar"
                                 onClick={() => setMostrarOpciones(!mostrarOpciones)}
                             >
-                                Cambiar cosas del usuario
+                                Editar perfil
                             </button>
 
                             {mostrarOpciones && (
@@ -125,7 +121,7 @@ function PerfilPlantilla() {
                                                 />
 
                                                 <label>Sobre mí:</label>
-                                                <Field name="sobre_mi" className="input-campo"  />
+                                                <Field name="sobre_mi" className="input-campo" />
 
                                                 <button type="submit" className="boton-enviar">
                                                     Guardar cambios

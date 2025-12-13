@@ -10,7 +10,6 @@
 
 
 .noticia-header {
-    display: flex;
     flex-direction: column;
     gap: 10px;
 }
@@ -30,6 +29,11 @@
     margin: 0;
     width: auto;
 }
+
+.volver-link:hover{
+    text-decoration: underline;
+}
+
 
 
 
@@ -69,9 +73,8 @@
 }
 
 .noticia-imagen {
-    width: 100%;
-    max-height: 450px;
-    object-fit: cover;
+    width: 50%;
+    max-height: 50%;
     border-radius: 12px;
 }
 
