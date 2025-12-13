@@ -14,14 +14,17 @@ function Index() {
   const [cargando, setCargando] = useState(true);
   const [usuario, setUsuario] = useState(null);
   const [noticiaDestacada, setNoticiaDestacada] = useState(null);
-
   const [sidebarOpen, setSidebarOpen] = useState(false);
+
+  const [busqueda, setBusqueda] = useState(""); // Estado para la barra de búsqueda
 
   const cerrarSesion = () => {
     localStorage.removeItem("sesionIniciada");
     localStorage.removeItem("usuarioNombre");
     localStorage.removeItem("usuarioId");
     localStorage.removeItem("usuarioPerfil");
+    localStorage.removeItem("usuarioRol");
+
     window.location.reload();
   };
 
@@ -31,7 +34,7 @@ function Index() {
     axios
       .get(`http://localhost:8081/usuario/${usuarioId}`)
       .then((r) => setUsuario(r.data))
-      .catch(() => {});
+      .catch(() => { });
   }, [usuarioId]);
 
   useEffect(() => {
@@ -41,14 +44,14 @@ function Index() {
         setNoticias(response.data);
         setCargando(false);
       })
-      .catch(() => {});
+      .catch(() => { });
   }, []);
 
   useEffect(() => {
     axios
       .get("http://localhost:8081/IdNoticia/4")
       .then((response) => setNoticiaDestacada(response.data))
-      .catch(() => {});
+      .catch(() => { });
   }, []);
 
   return (
@@ -74,15 +77,16 @@ function Index() {
 
           <nav className="nav-list">
             {sesionActiva ? (
-              <div className="nose">
-                {usuario?.perfil && (
-                  <img
-                    src={`http://localhost:8081/${usuario.perfil}`}
-                    alt="Perfil"
-                  />
-                )}
-
-                <p>{usuarioNombre}</p>
+              <div className="nav-contenido">
+                <div className="nose">
+                  {usuario?.perfil && (
+                    <img
+                      src={`http://localhost:8081/${usuario.perfil}`}
+                      alt="Perfil"
+                    />
+                  )}
+                  <p>{usuarioNombre}</p>
+                </div>
 
                 {usuarioRol === "2" && (
                   <ul className="Link">
@@ -100,14 +104,35 @@ function Index() {
                 <div className="boton">
                   <button onClick={cerrarSesion}>Cerrar sesión</button>
                 </div>
+
+                <div className="buscador-nav">
+                  <input
+                    type="text"
+                    placeholder="Buscar noticia por título..."
+                    value={busqueda}
+                    onChange={(e) => setBusqueda(e.target.value)}
+                  />
+                </div>
               </div>
             ) : (
-              <div>
+
+              <div className="nav-contenido">
                 <ul className="Link">
                   <li><Link to="/sesion">Iniciar sesión</Link></li>
                   <li><Link to="/registrar">Registrar</Link></li>
                   <li><Link to="/nosotros">Sobre nosotros</Link></li>
+
+
                 </ul>
+
+                <div className="buscador-nav">
+                  <input
+                    type="text"
+                    placeholder="Buscar noticia por título..."
+                    value={busqueda}
+                    onChange={(e) => setBusqueda(e.target.value)}
+                  />
+                </div>
               </div>
             )}
           </nav>
@@ -144,6 +169,15 @@ function Index() {
             <Link to="/nosotros" onClick={() => setSidebarOpen(false)}>
               Sobre nosotros
             </Link>
+            <div className="buscador-nav">
+              <input
+                type="text"
+                placeholder="Buscar noticia por título..."
+                value={busqueda}
+                onChange={(e) => setBusqueda(e.target.value)}
+              />
+            </div>
+
 
             <button
               className="cerrar-movil"
@@ -157,9 +191,18 @@ function Index() {
           </div>
         ) : (
           <div className="sidebar-content">
+
             <Link to="/sesion" onClick={() => setSidebarOpen(false)}>Iniciar sesión</Link>
             <Link to="/registrar" onClick={() => setSidebarOpen(false)}>Registrar</Link>
             <Link to="/nosotros" onClick={() => setSidebarOpen(false)}>Sobre nosotros</Link>
+            <div className="buscador-nav">
+              <input
+                type="text"
+                placeholder="Buscar noticia por título..."
+                value={busqueda}
+                onChange={(e) => setBusqueda(e.target.value)}
+              />
+            </div>
           </div>
         )}
       </div>
@@ -193,22 +236,26 @@ function Index() {
             <p>Cargando noticias...</p>
           ) : (
             <div className="lista-noticias">
-              {noticias.map((n) => (
-                <div key={n.id_noticia} className="noticia-card">
-                  <h3>{n.titulo}</h3>
+              {noticias
+                .filter((n) =>
+                  n.titulo.toLowerCase().includes(busqueda.toLowerCase())
+                )
+                .map((n) => (
+                  <div key={n.id_noticia} className="noticia-card">
+                    <h3>{n.titulo}</h3>
 
-                  <Link to={`/noticia/${n.id_noticia}`} className="enlace">
-                    Haz click para saber más
-                  </Link>
+                    <Link to={`/noticia/${n.id_noticia}`} className="enlace">
+                      Haz click para saber más
+                    </Link>
 
-                  {n.imagen && (
-                    <img
-                      src={`http://localhost:8081/${n.imagen}`}
-                      alt="noticia"
-                    />
-                  )}
-                </div>
-              ))}
+                    {n.imagen && (
+                      <img
+                        src={`http://localhost:8081/${n.imagen}`}
+                        alt="noticia"
+                      />
+                    )}
+                  </div>
+                ))}
             </div>
           )}
         </div>

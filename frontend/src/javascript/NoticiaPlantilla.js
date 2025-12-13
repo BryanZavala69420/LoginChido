@@ -104,10 +104,8 @@ function Plantilla() {
                 />
             </div>
 
-            <hr />
 
-            {/* COMENTARIOS */}
-            <div className="comentarios-box">
+         <div className="comentarios-box">
                 <h3>Comentarios</h3>
 
                 {sesionActiva ? (

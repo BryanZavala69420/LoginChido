@@ -13,6 +13,7 @@ import PanelAdmin from './javascript/PanelAdmin';
 import LogNoticias from './javascript/LogNoticias';
 import PerfilPlantilla from './javascript/PerfilPlantilla';
 import LogUsuarios from './javascript/LogUsuarios';
+import SobreNosotros from './javascript/SobreNosotros';
 
 
 
@@ -44,7 +45,7 @@ function App() {
 
         <Route path='/Log/Usuarios' element={<LogUsuarios/>}/>    
 
-
+        <Route path='/nosotros' element={<SobreNosotros/>}/>
       </Routes>
 
     </BrowserRouter>
