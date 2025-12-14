@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router";
-
+import '../css/LogUsuarios.css'
 function LogUsuarios() {
     const [usuarios, setUsuarios] = useState([]);
     const [cargando, setCargando] = useState(true);
@@ -43,42 +43,67 @@ function LogUsuarios() {
             });
     };
 
+
+    const formatearFecha = (fechaISO) => {
+    const fecha = new Date(fechaISO);
+
+    return fecha.toLocaleDateString("es-MX", {
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit"
+    });
+};
+
+
     if (cargando) return <p>Cargando usuarios...</p>;
+return (
+    <div className="logUsuarios-afuera">
+        <div className="logUsuarios-contenedor">
 
-    return (
-        <div>
-            <h2>Usuarios registrados</h2>
+            <header className="logUsuarios-header">
+                <h2>Usuarios registrados</h2>
+                <Link to="/admin" className="logUsuarios-regresar">
+                    Regresar
+                </Link>
+            </header>
 
-            <Link to="/admin">Regresar</Link>
-
-            <table border="1">
+            <table className="logUsuarios-tabla">
                 <thead>
                     <tr>
                         <th>Usuario</th>
                         <th>Fecha de nacimiento</th>
                         <th>Correo</th>
-                        <th>Borrar?</th>
+                        <th>¿Borrar?</th>
                     </tr>
                 </thead>
 
                 <tbody>
                     {usuarios.length === 0 ? (
                         <tr>
-                            <td colSpan="4">No hay usuarios registrados</td>
+                            <td colSpan="4" className="logUsuarios-vacio">
+                                No hay usuarios registrados
+                            </td>
                         </tr>
                     ) : (
                         usuarios.map((mapear, index) => (
                             <tr key={index}>
                                 <td>
-                                    <Link to={`/perfil/${mapear.id}`}>
+                                    <Link
+                                        to={`/perfil/${mapear.id}`}
+                                        className="logUsuarios-usuario"
+                                    >
                                         {mapear.usuario}
                                     </Link>
                                 </td>
-                                <td>{mapear.fecha_nac}</td>
+                                <td>{formatearFecha(mapear.fecha_nac)}</td>
+
                                 <td>{mapear.correo}</td>
                                 <td>
-                                    <button onClick={() => borrarUsuario(mapear.id)}>
-                                        Eliminar usuario
+                                    <button
+                                        className="logUsuarios-borrar"
+                                        onClick={() => borrarUsuario(mapear.id)}
+                                    >
+                                        Eliminar
                                     </button>
                                 </td>
                             </tr>
@@ -86,8 +111,11 @@ function LogUsuarios() {
                     )}
                 </tbody>
             </table>
+
         </div>
-    );
+    </div>
+);
+
 }
 
 export default LogUsuarios;

@@ -139,7 +139,7 @@ function PerfilPlantilla() {
                         </div>
                     )}
 
-                    {usuarioId !== Number(cargarUsuario.id) && <p>Otro Usuario</p>}
+                    {usuarioId !== Number(cargarUsuario.id) && <p></p>}
 
                     <Link to="/" className="link-regresar">Regresar</Link>
                 </div>

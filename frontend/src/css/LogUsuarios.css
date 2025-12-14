@@ -1,0 +1,108 @@
+.logUsuarios-afuera {
+    min-height: 100vh;
+    background: #effbff;
+    display: flex;
+    justify-content: center;
+    padding: 40px 15px;
+}
+
+.logUsuarios-contenedor {
+    width: 100%;
+    max-width: 1200px;
+    background: #ffffff;
+    padding: 30px;
+    border-radius: 14px;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.08);
+}
+
+.logUsuarios-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+}
+
+.logUsuarios-header h2 {
+    font-size: 30px;
+    color: #08415c;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.logUsuarios-regresar {
+    text-decoration: none;
+    color: #0b557a;
+
+    font-weight: bold;
+    transition: 0.2s ease;
+}
+
+.logUsuarios-regresar:hover{
+    text-decoration: underline;
+}
+
+.logUsuarios-tabla {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.logUsuarios-tabla thead {
+    background: #0b557a;
+}
+
+.logUsuarios-tabla th {
+    color: #ffffff;
+    padding: 12px;
+    text-align: left;
+    font-size: 16px;
+}
+
+.logUsuarios-tabla td {
+    padding: 12px;
+    border-bottom: 1px solid #e0e0e0;
+    color: #333;
+    font-size: 15px;
+}
+
+
+
+.logUsuarios-usuario {
+    color: #08415c;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+
+.logUsuarios-borrar {
+    background: #e63946;
+    color: #ffffff;
+    border: none;
+    padding: 7px 15px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: 0.2s ease;
+}
+
+.logUsuarios-borrar:hover {
+    background: #c92f3a;
+}
+
+.logUsuarios-vacio {
+    text-align: center;
+    padding: 20px;
+    color: #666;
+    font-style: italic;
+}
+
+@media (max-width: 768px) {
+    .logUsuarios-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+    .logUsuarios-tabla th,
+    .logUsuarios-tabla td {
+        font-size: 14px;
+    }
+}
