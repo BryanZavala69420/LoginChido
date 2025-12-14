@@ -33,7 +33,7 @@ function App() {
         <Route path='/nosotros' element={<SobreNosotros />} />
 
         <Route path="*" element={<Error404 />} />
-      </Routes>
+      </Routes> 
     </BrowserRouter>
   );
 }
