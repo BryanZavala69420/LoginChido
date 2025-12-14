@@ -16,7 +16,7 @@ import SobreNosotros from './javascript/SobreNosotros';
 
 
 
-import kon from './imagenes/12_.mp4';
+import kon from './imagenes/1_.mp4';
 import './css/Pagina-error.css'
 function App() {
   return (
