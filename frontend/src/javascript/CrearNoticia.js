@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Formik, Form, Field } from "formik";
 import axios from "axios";
-
+import '../css/CrearNoticia.css'
 function CrearNoticia() {
     let Navegar = useNavigate();
 
@@ -22,7 +22,6 @@ function CrearNoticia() {
 
     const EnviarNoticia = async (values) => {
         try {
-            // ---- ARMAR FORM DATA ----
             const formData = new FormData();
             formData.append("titulo", values.titulo);
             formData.append("noticia", values.noticia);
@@ -49,44 +48,73 @@ function CrearNoticia() {
         }
     };
 
-    return (
-        <div>
-            {sesionActiva ? (
-                usuarioRol === "2" ? (
-                    <div>
-                        <p>Periodista: {usuarioNombre}, ID {usuarioID}</p>
+ 
+return (
+    <div className="crearNoticia-afuera">
+        {sesionActiva ? (
+            usuarioRol === "2" ? (
+                <div className="crearNoticia-contenedor">
 
-                        <Formik initialValues={ValoresIniciales} onSubmit={EnviarNoticia}>
-                            <Form encType="multipart/form-data">
-                                <label>Título:</label>
-                                <Field name="titulo" placeholder="Título" required />
-                                <br />
+                    <header className="crearNoticia-header">
+                        <h2>Crear nueva noticia</h2>
+                        <p className="crearNoticia-periodista">
+                            Periodista: <strong>{usuarioNombre}</strong> (ID {usuarioID})
+                        </p>
+                    </header>
 
-                                <label>Noticia:</label>
-                                <Field name="noticia" placeholder="Noticia" required />
-                                <br />
+                    <Formik initialValues={ValoresIniciales} onSubmit={EnviarNoticia}>
+                        <Form className="crearNoticia-form" encType="multipart/form-data">
 
-                                <label>Imagen:</label>
-                                <input
-                                    type="file"
-                                    accept="image/*"
-                                    onChange={(e) => setArchivo(e.target.files[0])}
-                                />
-                                <br /><br />
+                            <label>Título:</label>
+                            <Field
+                                name="titulo"
+                                placeholder="Título de la noticia"
+                                className="crearNoticia-input"
+                                required
+                            />
 
-                                <button type="submit">Enviar noticia</button>
-                            </Form>
-                        </Formik>
-                        <Link to={'/admin'}> Regresar </Link>
-                    </div>
-                ) : (
-                    <p>No deberías estar aquí, acceso restringido.</p>
-                )
+                            <label>Noticia:</label>
+                            <Field
+                                as="textarea"
+                                name="noticia"
+                                placeholder="Contenido de la noticia"
+                                className="crearNoticia-textarea"
+                                required
+                            />
+
+                            <label>Imagen:</label>
+                            <input
+                                type="file"
+                                accept="image/*"
+                                className="crearNoticia-file"
+                                onChange={(e) => setArchivo(e.target.files[0])}
+                            />
+
+                            <button type="submit" className="crearNoticia-boton">
+                                Publicar noticia
+                            </button>
+                        </Form>
+                    </Formik>
+
+                    <Link to="/admin" className="crearNoticia-regresar">
+                        Regresar
+                    </Link>
+
+                </div>
             ) : (
-                <p>Inicia sesión para publicar noticias.</p>
-            )}
-        </div>
-    );
+                <p className="crearNoticia-error">
+                    Acceso restringido.
+                </p>
+            )
+        ) : (
+            <p className="crearNoticia-error">
+                Inicia sesión para publicar noticias.
+            </p>
+        )}
+    </div>
+);
+
+
 }
 
 export default CrearNoticia;

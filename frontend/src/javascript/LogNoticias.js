@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router";
-
+import '../css/LogNoticias.css';
 
 
 function LogNoticias() {
@@ -29,80 +29,95 @@ function LogNoticias() {
         return grupo;
     }, {});
 
+const BorrarNoticia = (id_noticia) => {
+    const confirmar = window.confirm(
+        "¿Estás seguro de que deseas eliminar esta noticia?\nEsta acción no se puede deshacer."
+    );
 
-        const BorrarNoticia = (id_noticia) => {
-        axios.delete(`http://localhost:8081/Borrar/Noticia/${id_noticia}`)
-            .then(() => {
-                alert("Noticia borrada correctamente.");
-                window.location.href = "/log";
-            })
+    if (!confirmar) return;
 
-        console.log('se ha borrado mimim');
+    axios
+        .delete(`http://localhost:8081/Borrar/Noticia/${id_noticia}`)
+        .then(() => {
+            alert("Noticia borrada correctamente.");
+            window.location.href = "/log";
+        })
+        .catch((error) => {
+            console.error("Error al borrar la noticia:", error);
+            alert("Ocurrió un error al borrar la noticia.");
+        });
+};
 
-    }
 
 
-    return (
-        <div>
-            <header>
+return (
+    <div className="logNoticias-afuera">
+        <div className="logNoticias-contenedor">
+
+            <header className="logNoticias-header">
                 <h1>Noticias por fecha</h1>
+                <Link to="/admin" className="logNoticias-regresar">
+                    Regresar
+                </Link>
             </header>
 
-
-            <Link to={'/admin'}> Regresar </Link>
-
             {cargando ? (
-                <p>Cargando noticias...</p>
+                <p className="logNoticias-estado">Cargando noticias...</p>
             ) : Object.keys(noticiasPorFecha).length === 0 ? (
-                <p>No hay noticias</p>
+                <p className="logNoticias-estado">No hay noticias</p>
             ) : (
-                <div>
+                <div className="logNoticias-fechas">
                     {Object.keys(noticiasPorFecha).map((fecha) => (
-                        <div key={fecha} style={{ marginBottom: "25px" }}>
+                        <div key={fecha} className="logNoticias-grupo">
 
-                            <h2>{fecha}</h2>
+                            <h2 className="logNoticias-fecha">{fecha}</h2>
 
-                            <table
-
-                            >
+                            <table className="logNoticias-tabla">
                                 <thead>
                                     <tr>
-                                        <th style={{ border: "1px solid #ccc", padding: "8px" }}>ID</th>
-                                        <th style={{ border: "1px solid #ccc", padding: "8px" }}>Título</th>
-                                        <th style={{ border: "1px solid #ccc", padding: "8px" }}>Acciones</th>
-                                        <th style={{ border: "1px solid #ccc", padding: "8px"}}> ¿Borrar?</th>
+                                        <th>ID</th>
+                                        <th>Título</th>
+                                        <th>Acción</th>
+                                        <th>¿Borrar?</th>
                                     </tr>
                                 </thead>
 
                                 <tbody>
                                     {noticiasPorFecha[fecha].map((not) => (
                                         <tr key={not.id_noticia}>
-                                            <td style={{ border: "1px solid #ccc", padding: "8px" }}>
-                                                {not.id_noticia}
-                                            </td>
-                                            <td style={{ border: "1px solid #ccc", padding: "8px" }}>
-                                                {not.titulo}
-                                            </td>
-                                            <td style={{ border: "1px solid #ccc", padding: "8px" }}>
-                                                <Link to={`/noticia/${not.id_noticia}`}>
-                                                    Ver completo
+                                            <td>{not.id_noticia}</td>
+                                            <td>{not.titulo}</td>
+                                            <td>
+                                                <Link
+                                                    to={`/noticia/${not.id_noticia}`}
+                                                    className="logNoticias-ver"
+                                                >
+                                                    Ver
                                                 </Link>
                                             </td>
-
-                                            <td style={{ border: "1px solid #ccc", padding: "8px"}}>
-                                                <button onClick={()=> BorrarNoticia(not.id_noticia)}> Eliminar la noticia</button>
-
+                                            <td>
+                                                <button
+                                                    className="logNoticias-borrar"
+                                                    onClick={() => BorrarNoticia(not.id_noticia)}
+                                                >
+                                                    Eliminar
+                                                </button>
                                             </td>
                                         </tr>
                                     ))}
                                 </tbody>
                             </table>
+
                         </div>
                     ))}
                 </div>
             )}
+
         </div>
-    );
+    </div>
+);
+
+
 }
 
 export default LogNoticias;
