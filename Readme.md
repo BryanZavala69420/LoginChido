@@ -1084,3 +1084,7 @@ La aplicación debería estar funcionando correctamente.
 4. Supervisar y moderar contenido
 5. Administrar todas las noticias del sistema
 
+### Conclusion
+
+
+El desarrollo de este proyecto de Página Web de Noticias ha permitido aplicar los conocimientos adquiridos en el curso sobre análisis, diseño e implementación de sistemas de información. A lo largo del proceso, se logró crear una plataforma funcional que cumple con los objetivos establecidos, proporcionando un espacio digital donde periodistas y redactores pueden publicar contenido de calidad, mientras que los usuarios pueden interactuar mediante comentarios, guardar noticias de interés y personalizar su experiencia de navegación.La implementación de una arquitectura cliente-servidor basada en React para el frontend, Node.js con Express para el backend, y MySQL como sistema de gestión de base de datos, permitió construir una aplicación web escalable, eficiente y con un rendimiento óptimo. El sistema de autenticación basado en roles garantiza la seguridad y el control de acceso apropiado para cada tipo de usuario, desde visitantes hasta administradores.El modelado de la base de datos relacional, con sus cinco tablas principales (usuarios, noticias, comentarios, sesiones y tags) y sus respectivas relaciones, proporciona una estructura sólida que facilita la gestión eficiente de la información y permite futuras expansiones del sistema. La implementación de llaves foráneas y restricciones de integridad referencial asegura la consistencia de los datos almacenados.
