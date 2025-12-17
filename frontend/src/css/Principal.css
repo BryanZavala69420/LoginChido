@@ -1,0 +1,276 @@
+.todo * {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.todo {
+  background-color: #effbff;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.cabezal header {
+  width: 100%;
+  min-height: 80px;
+  color: white;
+  background-color: #677a80;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 5%;
+  flex-wrap: nowrap;
+  gap: 20px;
+}
+
+.hola h1 {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  padding: 0;
+  margin: 0;
+  white-space: nowrap;
+  font-size: 1.8rem;
+}
+
+#nav-list {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  flex: 1;
+}
+
+ul.Link {
+  display: flex;
+  gap: 40px;
+  list-style: none;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+}
+
+ul a {
+  font-size: 18px;
+  text-decoration: none;
+  color: #f0fafd;
+  transition: color 0.3s ease;
+}
+
+ul a:hover {
+  color: #91b8c4;
+}
+
+.nose {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.nose p {
+  margin: 0;
+  font-size: 1.2rem;
+  color: #eee;
+  font-weight: 500;
+}
+
+.boton button {
+  background-color: #a0bcc5;
+  color: white;
+  border: none;
+  padding: 8px 15px;
+  font-size: 0.95rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.boton button:hover {
+  background-color: #506074;
+}
+
+main {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+  padding: 0;
+  overflow: hidden;
+}
+
+.Cuerpo-principal {
+  width: 80%;
+  background-color: #506074;
+  min-height: 100%;
+  flex-direction: column;
+  justify-content: flex-start;
+  box-shadow:
+    -10px 0 15px -5px rgba(0, 0, 0, 0.6),
+    10px 0 15px -5px rgba(0, 0, 0, 0.6);
+  padding-bottom: 40px;
+}
+
+.titulo-principal h2 {
+  text-align: center;
+  color: white;
+  font-size: 2.5rem;
+  margin-top: 30px;
+}
+
+.contenido {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 50px;
+  padding: 50px;
+  flex-wrap: wrap;
+}
+
+.texto {
+  background-color: #acb9bd;
+  padding: 25px;
+  border-radius: 10px;
+  max-width: 450px;
+  font-size: 17px;
+  line-height: 1.6;
+  flex: 1;
+}
+
+.texto p {
+  text-align: justify;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+.imagen-uas {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.UAS {
+  width: 100%;
+  max-width: 400px;
+  height: auto;
+  object-fit: contain;
+  border-radius: 10px;
+}
+
+.footers {
+  background-color: #677a80;
+  color: #ddd;
+  text-align: center;
+  padding: 15px 0;
+  width: 100%;
+}
+
+.footers p {
+  margin: 0;
+  font-size: 1rem;
+  letter-spacing: 0.5px;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+
+@media (max-width: 900px) {
+  .Cuerpo-principal {
+    width: 90%;
+  }
+
+  .hola h1 {
+    font-size: 1.5rem;
+  }
+
+  ul.Link {
+    flex-wrap: wrap;
+    gap: 25px;
+  }
+
+  .contenido {
+    gap: 30px;
+    padding: 30px;
+  }
+
+  .UAS {
+    max-width: 300px;
+  }
+
+  .texto {
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 600px) {
+  .cabezal header {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 15px;
+    gap: 10px;
+  }
+
+  .hola h1 {
+    font-size: 1.4rem;
+  }
+
+  ul.Link {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .nose {
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .Cuerpo-principal {
+    width: 95%;
+  }
+
+  .contenido {
+    flex-direction: column;
+    gap: 20px;
+    padding: 20px;
+  }
+
+  .texto {
+    max-width: 90%;
+    text-align: justify;
+  }
+
+  .UAS {
+    width: 100%;
+    max-width: 90%;
+  }
+
+  .footers p {
+    font-size: 0.9rem;
+  }
+}
+
+.ejemplito {
+  margin: 40px;
+  padding: 15px 25px;
+  background-color: #a0bcc5;
+  border-radius: 12px;
+  width: fit-content;
+  cursor: pointer;
+
+}
+
+.ejemplito:hover {
+  background-color: #798a8f;
+
+  transition: background-color 0.3s ease, transform 0.2s ease;
+
+}
+
+.ejemplito a {
+  text-decoration: none;
+  color: #f0fafd;
+  font-size: 18px;
+  font-weight: 600;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  letter-spacing: 0.5px;
+}

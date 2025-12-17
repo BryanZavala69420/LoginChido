@@ -1,0 +1,129 @@
+.error-page {
+  min-height: 100vh;
+  background: radial-gradient(circle at top, #1b1b2f, #0f0f1a);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+  color: #fff;
+  font-family: 'Segoe UI', system-ui, sans-serif;
+}
+
+.error-card {
+  max-width: 900px;
+  width: 100%;
+  background: rgba(20, 20, 35, 0.85);
+  border-radius: 20px;
+  padding: 40px;
+  box-shadow:
+    0 0 40px rgba(120, 80, 255, 0.25),
+    inset 0 0 40px rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(8px);
+  animation: fadeIn 0.8s ease;
+}
+
+/* Header */
+.error-header {
+  text-align: center;
+  margin-bottom: 30px;
+  position: relative;
+}
+
+.error-title {
+  font-size: 2.6rem;
+  font-weight: 700;
+  margin-bottom: 10px;
+  text-shadow: 0 0 15px rgba(160, 120, 255, 0.6);
+}
+
+.error-glitch {
+  font-size: 5rem;
+  font-weight: 900;
+  color: rgba(255, 255, 255, 0.08);
+  position: absolute;
+  top: -20px;
+  right: 20px;
+  user-select: none;
+}
+
+/* Mensaje */
+.error-message {
+  text-align: center;
+  margin-bottom: 35px;
+}
+
+.error-message h2 {
+  font-size: 1.4rem;
+  font-weight: 400;
+  line-height: 1.6;
+  color: #ddd;
+}
+
+.error-message span {
+  color: #ffb6ff;
+  font-weight: 600;
+  text-shadow: 0 0 10px rgba(255, 182, 255, 0.7);
+}
+
+/* Video */
+.video-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 30px;
+}
+
+.video-frame {
+  padding: 12px;
+  border-radius: 16px;
+  background: linear-gradient(135deg, #6a5cff, #ff77d9);
+  box-shadow: 0 0 25px rgba(150, 100, 255, 0.5);
+}
+
+.video-frame video {
+  display: block;
+  max-width: 100%;
+  height: 500px;
+  border-radius: 12px;
+  background: #000;
+}
+
+.error-footer {
+  text-align: center;
+  font-size: 1.1rem;
+  color: #bbb;
+}
+
+.error-link {
+  color: #9f8cff;
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.error-link:hover {
+  color: #ff9df0;
+  text-shadow: 0 0 10px rgba(255, 157, 240, 0.8);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}@media (max-width: 768px) {
+  .error-title {
+    font-size: 2rem;
+  }
+
+  .error-glitch {
+    font-size: 3.5rem;
+  }
+
+  .video-frame video {
+    height: auto;
+  }
+}

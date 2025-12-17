@@ -1,0 +1,139 @@
+
+
+.logNoticias-afuera {
+    background-color: #f0f8ff;
+    min-height: 100vh;
+    padding: 40px 0;
+    display: flex;
+    justify-content: center;
+}
+
+.logNoticias-contenedor {
+    width: 95%;
+    max-width: 1200px;
+    background: #ffffff;
+    border-radius: 14px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.logNoticias-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 3px solid #0b557a;
+    padding-bottom: 15px;
+}
+
+.logNoticias-header h1 {
+    font-size: 32px;
+    color: #0b557a;
+    font-family: Arial, sans-serif;
+}
+
+.logNoticias-regresar {
+    text-decoration: none;
+    font-size: 18px;
+    font-weight: bold;
+    color: #08415c;
+}
+
+.logNoticias-regresar:hover {
+    text-decoration: underline;
+}
+
+.logNoticias-estado {
+    font-size: 20px;
+    text-align: center;
+    color: #444;
+    font-weight: bold;
+}
+
+.logNoticias-fechas {
+    display: flex;
+    flex-direction: column;
+    gap: 35px;
+}
+
+.logNoticias-grupo {
+    background: #f7fbff;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 5px 10px rgba(0,0,0,0.05);
+}
+
+.logNoticias-fecha {
+    font-size: 24px;
+    color: #08415c;
+    margin-bottom: 15px;
+    border-bottom: 2px solid #d0ecff;
+    padding-bottom: 5px;
+}
+
+/* Tabla */
+.logNoticias-tabla {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.logNoticias-tabla th {
+    background: #0b557a;
+    color: white;
+    padding: 12px;
+    font-size: 16px;
+}
+
+.logNoticias-tabla td {
+    padding: 10px;
+    border: 1px solid #ddd;
+    font-size: 15px;
+    text-align: center;
+}
+
+.logNoticias-tabla tr:nth-child(even) {
+    background: #f2f6fa;
+}
+
+.logNoticias-ver {
+    text-decoration: none;
+    font-weight: bold;
+    color: #0b557a;
+}
+
+.logNoticias-ver:hover {
+    text-decoration: underline;
+}
+
+/* Botón borrar */
+.logNoticias-borrar {
+    background: #ffdddd;
+    border: 1px solid #e57373;
+    color: #b71c1c;
+    padding: 8px 14px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: 0.2s;
+}
+
+.logNoticias-borrar:hover {
+    background: #ffcdd2;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+    .logNoticias-header {
+        flex-direction: column;
+        gap: 10px;
+        text-align: center;
+    }
+
+    .logNoticias-tabla th,
+    .logNoticias-tabla td {
+        font-size: 14px;
+        padding: 8px;
+    }
+}

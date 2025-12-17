@@ -1,0 +1,163 @@
+.noticia-container {
+    max-width: 1100px;    
+    width: 95%;            
+    margin: 40px auto;
+    background: #fff;
+    padding: 45px;         
+    border-radius: 14px;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.08);
+}
+
+
+.noticia-header {
+    flex-direction: column;
+    gap: 10px;
+}
+
+.noticia-header h1 {
+    font-size: 32px;
+    color: #222;
+    text-align: center;
+}
+
+.volver-link {
+    display: inline;
+    color: #0063cc;
+    text-decoration: none;
+    font-size: 16px;
+    padding: 0;
+    margin: 0;
+    width: auto;
+}
+
+.volver-link:hover{
+    text-decoration: underline;
+}
+
+
+
+
+.boton-eliminar-noticia {
+    width: fit-content;
+    background: #d9534f;
+    color: #fff;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 8px;
+    font-size: 15px;
+    cursor: pointer;
+}
+.boton-eliminar-noticia:hover {
+    background: #b52b27;
+}
+
+.noticia-info {
+    margin-top: 20px;
+}
+
+.autor {
+    font-weight: bold;
+    color: #333;
+}
+
+.noticia-texto {
+    margin-top: 10px;
+    font-size: 17px;
+    line-height: 1.6;
+}
+
+.noticia-imagen-box {
+    display: flex;
+    justify-content: center;
+    margin-top: 25px;
+}
+
+.noticia-imagen {
+    width: 50%;
+    max-height: 50%;
+    border-radius: 12px;
+}
+
+.comentarios-box {
+    margin-top: 30px;
+}
+
+.crear-comentario-box {
+    display: flex;
+    gap: 12px;
+}
+
+.crear-comentario-box input {
+    flex: 1;
+    padding: 10px 12px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+}
+
+.crear-comentario-box button {
+    background: #0063cc;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+.crear-comentario-box button:hover {
+    background: #004a9e;
+}
+
+.lista-comentarios {
+    margin-top: 20px;
+}
+
+.comentario-card {
+    background: #fafafa;
+    padding: 15px;
+    border-radius: 12px;
+    border: 1px solid #e0e0e0;
+    margin-bottom: 15px;
+}
+
+.comentario-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.comentario-perfil {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.comentario-usuario {
+    color: #0063cc;
+    text-decoration: none;
+    font-weight: bold;
+}
+.comentario-usuario:hover {
+    text-decoration: underline;
+}
+
+.comentario-texto {
+    margin: 10px 0;
+}
+
+.comentario-fecha {
+    color: #666;
+    font-size: 13px;
+}
+
+.boton-borrar-comentario {
+    margin-top: 8px;
+    background: #d9534f;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+.boton-borrar-comentario:hover {
+    background: #b52b27;
+}
