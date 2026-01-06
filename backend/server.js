@@ -22,7 +22,7 @@ app.use(cors({
 app.use(express.json());
 
 //puerto 
-const port = process.env.PORT || 8080;
+const port = process.env.PORT || 8081;
 //base de datos
 const BaseDatos = mysql.createConnection({
     user: process.env.DB_USER,
