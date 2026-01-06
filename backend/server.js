@@ -15,14 +15,17 @@ const jwt = require('jsonwebtoken');
 
 //cositas par
 const app = express();
-app.use(cors());
+app.use(cors({
+    origin:'*',
+    credentials: true
+}));
 app.use(express.json());
 
 //puerto 
-const port = process.env.PORT || 8081;
+const port = process.env.PORT || 8080;
 //base de datos
-const BaseDatos = mysql.createC
-    user: process.env.DB_USER,onnection({
+const BaseDatos = mysql.createConnection({
+    user: process.env.DB_USER,
     host: process.env.DB_HOST,
     password: process.env.DB_PASSWORD,
     database: process.env.DB_NAME,
@@ -524,5 +527,5 @@ app.post('/usuario/:id', upload_Perfiles.single("perfil"), (req, res) => {
 
 
 app.listen(port, () => {
-    console.log('conectandose en el puerto 8081, y en el puerto 3001');
+    console.log(`conectandose en el puerto ${port}, y en el puerto 3001`);
 });
