@@ -3,7 +3,7 @@ import { Formik, Form, Field } from "formik";
 import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import '../css/PerfilPlantilla.css';
-
+import URLCHILA from "./CocoDelTF2we";
 function PerfilPlantilla() {
     let { id_usuario } = useParams();
 
@@ -16,7 +16,7 @@ function PerfilPlantilla() {
 
     useEffect(() => {
         axios
-            .get(`http://localhost:8081/usuario/${id_usuario}`)
+            .get(`${URLCHILA}/usuario/${id_usuario}`)
             .then((response) => {
                 setCargarUsuario(response.data);
                 setCargando(false);
@@ -45,7 +45,7 @@ function PerfilPlantilla() {
             }
 
             await axios.post(
-                `http://localhost:8081/usuario/${id_usuario}`,
+                `${URLCHILA}/usuario/${id_usuario}`,
                 formData,
                 { headers: { "Content-Type": "multipart/form-data" } }
             );
@@ -77,7 +77,7 @@ function PerfilPlantilla() {
                     <div className="contenedor-3-usuario">
                         <div className="perfil-usuario">
                             <img
-                                src={`http://localhost:8081/${cargarUsuario.perfil}`}
+                                src={`${URLCHILA}/${cargarUsuario.perfil}`}
                                 alt="perfil"
                             />
                         </div>

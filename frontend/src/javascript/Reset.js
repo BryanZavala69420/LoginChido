@@ -4,7 +4,7 @@ import axios from "axios";
 import ValidarLogin from "./ValidarLogin";
 import '../css/Reset.css';
 import { Link } from "react-router";
-
+import URLCHILA from "./CocoDelTF2we";
 function Reset() {
   const [password, setPassword] = useState("");
   const [mensaje, setMensaje] = useState("");
@@ -25,7 +25,7 @@ function Reset() {
     // Verifica que no haya errores antes de continuar
     if (validacion.contrasena === "") {
       try {
-        const res = await axios.post("http://localhost:8081/NuevaContrasenia", {
+        const res = await axios.post(`${URLCHILA}/NuevaContrasenia`, {
           token,
           nuevaContrasena: password,
         });

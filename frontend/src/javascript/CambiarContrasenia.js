@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { Link } from "react-router";
 import '../css/CambiarContrasena.css'
-
+import URLCHILA from "./CocoDelTF2we";
 function CambiarContrasenia() {
 
 
@@ -19,7 +19,7 @@ function CambiarContrasenia() {
     }
 
     try {
-      const res = await axios.post("http://localhost:8081/cambiarcontrasenia", { correo });
+      const res = await axios.post(`http://${URLCHILA}/cambiarcontrasenia`, { correo });
 
       if (res.data.mensaje) {
         setMensaje(res.data.mensaje);

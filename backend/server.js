@@ -1,3 +1,4 @@
+require('dotenv').config();
 //dependencias para que pueda correr la madre esta
 const express = require('express');
 const mysql = require('mysql');
@@ -17,15 +18,15 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-//puerto
-const port = 8081;
-
-//base de datos, conexion
-const BaseDatos = mysql.createConnection({
-    host: "localhost",
-    user: "root",
-    password: '',
-    database: "Pruebas"
+//puerto 
+const port = process.env.PORT || 8081;
+//base de datos
+const BaseDatos = mysql.createC
+    user: process.env.DB_USER,onnection({
+    host: process.env.DB_HOST,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_NAME,
+    port: process.env.DB_PORT || 3306
 });
 //clave secreta para firmar los tokens
 const Clave = "ñiñiñiñi, sexo sexo sexo, ñiñiñiñi"
@@ -35,11 +36,10 @@ const Clave = "ñiñiñiñi, sexo sexo sexo, ñiñiñiñi"
 const transportar = nodemailer.createTransport({
     service: 'gmail',
     auth: {
-        user: '',
-        pass: ''
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS
     }
 })
-
 
 // carpeta donde se guardarán las imágenes
 const storage = multer.diskStorage({

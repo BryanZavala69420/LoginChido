@@ -3,6 +3,7 @@ import { Link, useParams } from "react-router";
 import axios from "axios";
 import { useState } from "react";
 import '../css/NoticiaPlantilla.css'
+import URLCHILA from "./CocoDelTF2we";
 function Plantilla() {
     let { id_noticia } = useParams();
 
@@ -18,7 +19,7 @@ function Plantilla() {
 
     useEffect(() => {
         axios
-            .get(`http://localhost:8081/IdNoticia/${id_noticia}`)
+            .get(`${URLCHILA}/IdNoticia/${id_noticia}`)
             .then((response) => {
                 setCargarNoticia(response.data);
                 setCargando(false);
@@ -28,7 +29,7 @@ function Plantilla() {
 
     useEffect(() => {
         axios
-            .get(`http://localhost:8081/comentario/${id_noticia}`)
+            .get(`${URLCHILA}/comentario/${id_noticia}`)
             .then((res) => setListaComentarios(res.data))
             .catch(() => {});
     }, [id_noticia]);
@@ -37,7 +38,7 @@ function Plantilla() {
         if (comentarioTexto.trim() === "") return;
 
         axios
-            .post("http://localhost:8081/NuevoComentario", {
+            .post(`${URLCHILA}/NuevoComentario`, {
                 comentario: comentarioTexto,
                 usuario: usuarioNombre,
                 id_usuario: usuarioID,
@@ -46,7 +47,7 @@ function Plantilla() {
             .then(() => {
                 setComentarioTexto("");
                 axios
-                    .get(`http://localhost:8081/comentario/${id_noticia}`)
+                    .get(`${URLCHILA}/comentario/${id_noticia}`)
                     .then((res) => setListaComentarios(res.data));
             })
             .catch(() => {});
@@ -54,14 +55,14 @@ function Plantilla() {
 
     const Borrar = (idComentario) => {
         axios
-            .delete(`http://localhost:8081/BorrarComentario/${idComentario}/${usuarioID}`)
+            .delete(`${URLCHILA}/BorrarComentario/${idComentario}/${usuarioID}`)
             .then(() => window.location.reload())
             .catch(() => {});
     };
 
     const BorrarNoticia = () => {
         axios
-            .delete(`http://localhost:8081/Borrar/Noticia/${id_noticia}`)
+            .delete(`${URLCHILA}/Borrar/Noticia/${id_noticia}`)
             .then(() => {
                 alert("Noticia borrada correctamente.");
                 window.location.href = "/log";
@@ -99,7 +100,7 @@ function Plantilla() {
             <div className="noticia-imagen-box">
                 <img
                     className="noticia-imagen"
-                    src={`http://localhost:8081/${CargarNoticia.imagen}`}
+                    src={`${URLCHILA}/${CargarNoticia.imagen}`}
                     alt="imagen"
                 />
             </div>
@@ -134,7 +135,7 @@ function Plantilla() {
                             
                             <div className="comentario-header">
                                 <img
-                                    src={`http://localhost:8081/${Comentario.perfil}`}
+                                    src={`${URLCHILA}/${Comentario.perfil}`}
                                     alt="perfil"
                                     className="comentario-perfil"
                                 />

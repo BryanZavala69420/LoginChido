@@ -2,13 +2,15 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router";
 import '../css/LogUsuarios.css'
+import URLCHILA from './CocoDelTF2we';
+
 function LogUsuarios() {
     const [usuarios, setUsuarios] = useState([]);
     const [cargando, setCargando] = useState(true);
 
     useEffect(() => {
         axios
-            .get("http://localhost:8081/sus")
+            .get(`${URLCHILA}/sus`)
             .then((response) => {
                 setUsuarios(response.data);
                 setCargando(false);
@@ -27,7 +29,7 @@ function LogUsuarios() {
         }
 
         axios
-            .delete(`http://localhost:8081/borrarUsuario/${id}`)
+            .delete(`${URLCHILA}/borrarUsuario/${id}`)
             .then(() => {
                 alert("Usuario eliminado correctamente.");
 

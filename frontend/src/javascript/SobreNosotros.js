@@ -2,7 +2,8 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import banner from "../imagenes/Banner2.png";
 import axios from "axios";
-import "../css/Principal2.css"; // Usa el mismo CSS que tu Index
+import "../css/Principal2.css"; 
+import URLCHILA from "./CocoDelTF2we";
 
 function SobreNosotros() {
     const sesionActiva = localStorage.getItem("sesionIniciada") === "true";
@@ -27,7 +28,7 @@ function SobreNosotros() {
         if (!usuarioId) return;
 
         axios
-            .get(`http://localhost:8081/usuario/${usuarioId}`)
+            .get(`${URLCHILA}/usuario/${usuarioId}`)
             .then((r) => setUsuario(r.data))
             .catch(() => { });
     }, [usuarioId]);
@@ -65,7 +66,7 @@ function SobreNosotros() {
                                 <div className="nose">
                                     {usuario?.perfil && (
                                         <img
-                                            src={`http://localhost:8081/${usuario.perfil}`}
+                                            src={`${URLCHILA}/${usuario.perfil}`}
                                             alt="Perfil"
                                         />
                                     )}
@@ -115,7 +116,7 @@ function SobreNosotros() {
                     <div className="sidebar-content">
                         {usuario?.perfil && (
                             <img
-                                src={`http://localhost:8081/${usuario.perfil}`}
+                                src={`${URLCHILA}/${usuario.perfil}`}
                                 alt="perfil"
                                 className="sidebar-img"
                             />

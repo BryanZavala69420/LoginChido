@@ -2,15 +2,19 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router";
 import '../css/LogNoticias.css';
-
+import URLCHILA from "./CocoDelTF2we";
 
 function LogNoticias() {
     const [noticias, setNoticias] = useState([]);
     const [cargando, setCargando] = useState(true);
 
+    const URLCHILA = `:8081`;
+
+
+
     useEffect(() => {
         axios
-            .get("http://localhost:8081/Log")
+            .get(`${URLCHILA}/Log`)
             .then((response) => {
                 setNoticias(response.data);
                 setCargando(false);
@@ -37,7 +41,7 @@ const BorrarNoticia = (id_noticia) => {
     if (!confirmar) return;
 
     axios
-        .delete(`http://localhost:8081/Borrar/Noticia/${id_noticia}`)
+        .delete(`${URLCHILA}/Borrar/Noticia/${id_noticia}`)
         .then(() => {
             alert("Noticia borrada correctamente.");
             window.location.href = "/log";

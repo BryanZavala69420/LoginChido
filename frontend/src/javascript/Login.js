@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import ValidarLogin from "./ValidarLogin";
 import '../css/Login.css'
+import URLCHILA from './CocoDelTF2we';
 
 function Login() {
     const [valores, setValores] = useState({
@@ -29,7 +30,7 @@ function Login() {
     const sinErrorescitos = Object.values(Validacion).every(v => v === "");
 
     if (sinErrorescitos) {
-        axios.post('http://localhost:8081/acceder', valores)
+        axios.post(`${URLCHILA}/acceder`, valores)
            
         .then(res => {
     console.log("Respuesta completa del backend:", res.data);
@@ -41,7 +42,7 @@ function Login() {
         localStorage.setItem("usuarioId", res.data.id_usuario);
         localStorage.setItem("usuarioPerfil", res.data.perfil)
         const idUsuario = res.data.id_usuario;
-                axios.post('http://localhost:8081/sesiones', { id_usuario: idUsuario })
+                axios.post(`${URLCHILA}/sesiones`, { id_usuario: idUsuario })
 
 
 

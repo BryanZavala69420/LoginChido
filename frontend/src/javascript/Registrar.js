@@ -3,8 +3,10 @@ import { Link, useNavigate } from "react-router-dom";
 import ValidarUsuario from './ValidarUsuario';
 import axios from 'axios';
 import '../css/Registrar.css';
-
+import URLCHILA from './CocoDelTF2we';
 function Registrar() {
+
+
 
     const Navegar = useNavigate();
 
@@ -52,7 +54,7 @@ function Registrar() {
                 formData.append("perfil", imagen);
             }
 
-            axios.post("http://localhost:8081/registrar", formData, {
+            axios.post(`${URLCHILA}/registrar`, formData, {
                 headers: { "Content-Type": "multipart/form-data" }
             })
                 .then(res => {

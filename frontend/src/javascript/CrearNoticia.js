@@ -3,7 +3,9 @@ import { Link, useNavigate } from "react-router-dom";
 import { Formik, Form, Field } from "formik";
 import axios from "axios";
 import '../css/CrearNoticia.css'
+import URLCHILA from './CocoDelTF2we';
 function CrearNoticia() {
+
     let Navegar = useNavigate();
 
     const usuarioNombre = localStorage.getItem("usuarioNombre");
@@ -33,7 +35,7 @@ function CrearNoticia() {
             }
 
             const respuesta = await axios.post(
-                "http://localhost:8081/NuevaNoticia",
+                `${URLCHILA}/NuevaNoticia`,
                 formData,
                 {
                     headers: { "Content-Type": "multipart/form-data" }

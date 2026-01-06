@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import banner from "../imagenes/Banner2.png";
 import axios from "axios";
 import "../css/Principal2.css";
-
+import URLCHILA from "./CocoDelTF2we";
 function Index() {
   const sesionActiva = localStorage.getItem("sesionIniciada") === "true";
   const usuarioNombre = localStorage.getItem("usuarioNombre");
@@ -32,14 +32,14 @@ function Index() {
     if (!usuarioId) return;
 
     axios
-      .get(`http://localhost:8081/usuario/${usuarioId}`)
+      .get(`${URLCHILA}/usuario/${usuarioId}`)
       .then((r) => setUsuario(r.data))
       .catch(() => { });
   }, [usuarioId]);
 
   useEffect(() => {
     axios
-      .get("http://localhost:8081/TodasLasNoticias")
+      .get(`${URLCHILA}/TodasLasNoticias`)
       .then((response) => {
         setNoticias(response.data);
         setCargando(false);
@@ -49,7 +49,7 @@ function Index() {
 
   useEffect(() => {
     axios
-      .get("http://localhost:8081/IdNoticia/4")
+      .get(`${URLCHILA}/IdNoticia/4`)
       .then((response) => setNoticiaDestacada(response.data))
       .catch(() => { });
   }, []);
@@ -81,7 +81,7 @@ function Index() {
                 <div className="nose">
                   {usuario?.perfil && (
                     <img
-                      src={`http://localhost:8081/${usuario.perfil}`}
+                      src={`${URLCHILA}/${usuario.perfil}`}
                       alt="Perfil"
                     />
                   )}
@@ -148,7 +148,7 @@ function Index() {
           <div className="sidebar-content">
             {usuario?.perfil && (
               <img
-                src={`http://localhost:8081/${usuario.perfil}`}
+                src={`${URLCHILA}/${usuario.perfil}`}
                 alt="perfil"
                 className="sidebar-img"
               />
@@ -217,7 +217,7 @@ function Index() {
                 <h3>{noticiaDestacada.titulo}</h3>
 
                 <img
-                  src={`http://localhost:8081/${noticiaDestacada.imagen}`}
+                  src={`${URLCHILA}/${noticiaDestacada.imagen}`}
                   alt="destacada"
                 />
 
@@ -250,7 +250,7 @@ function Index() {
 
                     {n.imagen && (
                       <img
-                        src={`http://localhost:8081/${n.imagen}`}
+                        src={`${URLCHILA}/${n.imagen}`}
                         alt="noticia"
                       />
                     )}
